@@ -28,13 +28,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-        mBtAgreeTos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WelcomeActivity.this, InputPhoneNumberActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        mBtAgreeTos.setOnClickListener(view -> {
+            Intent intent = new Intent(WelcomeActivity.this, InputPhoneNumberActivity.class);
+            startActivity(intent);
+            finish();
         });
 
     }

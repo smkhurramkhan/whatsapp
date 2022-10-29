@@ -46,7 +46,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".InputPhoneNumberActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".PhoneVerifyActivity"
             android:windowSoftInputMode="adjustResize" />

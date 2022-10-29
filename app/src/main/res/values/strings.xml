@@ -218,4 +218,9 @@
     <string name="new_ke">NEW</string>
     <string name="weather">Weather</string>
     <string name="notification">Notification</string>
+    <string name="exit_info">Press again to exit</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="please_enter_your_number">Please enter your number</string>
+    <string name="enter">Enter</string>
+    <string name="carrier_sms_charges_may_apply">SMS charges may apply</string>
 </resources>

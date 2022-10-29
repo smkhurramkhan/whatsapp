@@ -1,8 +1,11 @@
 package com.iceka.whatsappclone
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,10 +13,14 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationBarView
 import com.iceka.whatsappclone.databinding.ActivityHomeBinding
+import com.iceka.whatsappclone.fragments.ChatTabFragment
 import com.iceka.whatsappclone.newfrags.FragmentHome
 
+
 class HomeActivity : AppCompatActivity() {
+    var doubleBackToExitPressedOnce = false
     private lateinit var binding: ActivityHomeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -60,6 +67,19 @@ class HomeActivity : AppCompatActivity() {
 
         loadFragment(FragmentHome())
         bottomNavigationClicks()
+
+        onNavHeaderClicks()
+    }
+
+    private fun onNavHeaderClicks() {
+        val hView = binding.navViewHead.getHeaderView(0)
+        val closeBtn = hView.findViewById<ImageView>(R.id.closebtn)
+
+        closeBtn.setOnClickListener {
+            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                binding.drawerLayout.closeDrawer(GravityCompat.START)
+            }
+        }
     }
 
     private fun bottomNavigationClicks() {
@@ -80,17 +100,19 @@ class HomeActivity : AppCompatActivity() {
         NavigationBarView.OnItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.location -> {
+                    Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show()
                 }
                 R.id.messaging -> {
-                    loadFragment(ChatFragment())
+                    loadFragment(ChatTabFragment())
                 }
                 R.id.home -> {
                     loadFragment(FragmentHome())
                 }
                 R.id.bag -> {
+                    Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show()
                 }
                 R.id.history -> {
-
+                    Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show()
                 }
             }
             true
@@ -116,4 +138,21 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
+        if (doubleBackToExitPressedOnce) {
+            finish()
+            return
+        }
+        doubleBackToExitPressedOnce = true
+        Toast.makeText(this, getString(R.string.exit_info), Toast.LENGTH_SHORT).show()
+        Handler(Looper.getMainLooper())
+            .postDelayed(
+                { doubleBackToExitPressedOnce = false },
+                2000
+            )
+    }
 }
