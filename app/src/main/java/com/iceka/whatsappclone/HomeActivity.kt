@@ -1,7 +1,9 @@
 package com.iceka.whatsappclone
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -93,4 +95,25 @@ class HomeActivity : AppCompatActivity() {
             }
             true
         }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_home, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.weather_menu -> {
+                Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.notification_menu -> {
+                Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 }
