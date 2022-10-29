@@ -227,4 +227,6 @@
     <string name="haven_t_received_an_sms_resend">Haven\'t received an SMS? <font color='#F70300'><b>Resend!</b></font></string>
     <string name="waiting_to_automatically_detect_an_sms_sent_to_6285814993643_wrong_number">Waiting to automatically detect an SMS sent to +6285814993643. Wrong number?</string>
     <string name="enter_6_digit_code">Enter 6-digit code</string>
+    <string name="please_provide_your_name_and_an_optional_profile_photourl">Please Enter your name and an optional profile photoUrl</string>
+    <string name="next">Next</string>
 </resources>

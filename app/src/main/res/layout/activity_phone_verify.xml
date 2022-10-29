@@ -89,12 +89,12 @@
     <TextView
         android:id="@+id/tv_countdown_sms"
         android:layout_width="wrap_content"
+        android:visibility="invisible"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/tv_resend_sms"
         app:layout_constraintStart_toEndOf="@id/tv_resend_sms"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_resend_sms"
-        android:text="1:03"
         android:layout_alignParentEnd="true" />
 
     <TextView
