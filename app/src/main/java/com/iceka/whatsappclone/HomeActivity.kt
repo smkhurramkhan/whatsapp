@@ -6,14 +6,20 @@ import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationBarView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import com.iceka.whatsappclone.databinding.ActivityHomeBinding
 import com.iceka.whatsappclone.fragments.ChatTabFragment
+import com.iceka.whatsappclone.models.User
 import com.iceka.whatsappclone.newfrags.FragmentHome
 
 
@@ -21,10 +27,23 @@ class HomeActivity : AppCompatActivity() {
     var doubleBackToExitPressedOnce = false
     private lateinit var binding: ActivityHomeBinding
 
+    private var userUid:String? = null
+    private var mFirebaseDatabase: FirebaseDatabase? = null
+    private var mFirebaseAuth: FirebaseAuth? = null
+    private var mFirebaseUser: FirebaseUser? = null
+    private var mUserReference: DatabaseReference? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance()
+        mFirebaseAuth = FirebaseAuth.getInstance()
+        mFirebaseUser = mFirebaseAuth?.currentUser
+
+         userUid = mFirebaseUser?.uid
+        mUserReference = mFirebaseDatabase?.reference?.child("users")
 
         setSupportActionBar(binding.appbarHome.toolbar)
         val toggle = ActionBarDrawerToggle(
@@ -69,7 +88,36 @@ class HomeActivity : AppCompatActivity() {
         bottomNavigationClicks()
 
         onNavHeaderClicks()
+
+        getUserDetails()
+
     }
+
+    private fun getUserDetails() {
+        mUserReference?.child(userUid!!)
+            ?.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val user = dataSnapshot.getValue(
+                        User::class.java
+                    )
+                    val hView = binding.navViewHead.getHeaderView(0)
+                    val username: TextView = hView.findViewById(R.id.username)
+                    username.text = user?.username
+
+                    val userProfile: ImageView = findViewById(R.id.iv_user)
+
+                    Glide.with(applicationContext)
+                        .load(user?.photoUrl)
+                        .into(userProfile)
+
+                    val userNumber: TextView = findViewById(R.id.phone_number)
+                    userNumber.text = user?.phone
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+    }
+
 
     private fun onNavHeaderClicks() {
         val hView = binding.navViewHead.getHeaderView(0)
