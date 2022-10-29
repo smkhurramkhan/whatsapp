@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -24,7 +23,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.iceka.whatsappclone.adapters.TabAdapter;
-import com.iceka.whatsappclone.fragments.CameraTabFragment;
 
 import java.util.concurrent.TimeUnit;
 
@@ -57,13 +55,11 @@ public class MainActivity extends AppCompatActivity {
         mFabTop = findViewById(R.id.fab_top);
         mToolbar = findViewById(R.id.toolbar);
         mAppBarLayout = findViewById(R.id.appbar_layout);
-//        mFab = findViewById(R.id.fab);
 
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
         }
         setSupportActionBar(mToolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mTabAdapter = new TabAdapter(this, getSupportFragmentManager());
         mViewPager.setOffscreenPageLimit(4);
@@ -90,12 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fabSettings() {
         if (mViewPager.getCurrentItem() == 1) {
-            mFabBottom.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, ContactActivity.class));
-                }
-            });
+            mFabBottom.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, ContactActivity.class)));
         }
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -106,8 +97,6 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         mFabTop.hide();
                         mFabBottom.hide();
-//                        CameraTabFragment cameraTabFragment = new CameraTabFragment();
-//                        cameraTabFragment.startCamera();
                         break;
                     case 1:
                         mFabBottom.hide();
@@ -115,12 +104,7 @@ public class MainActivity extends AppCompatActivity {
                         mFabTop.hide();
                         mFabBottom.show();
 
-                        mFabBottom.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                startActivity(new Intent(MainActivity.this, ContactActivity.class));
-                            }
-                        });
+                        mFabBottom.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, ContactActivity.class)));
                         break;
                     case 2:
                         mFabTop.hide();
@@ -128,20 +112,12 @@ public class MainActivity extends AppCompatActivity {
                         mFabTop.show();
                         mFabBottom.hide();
                         mFabBottom.show();
-                        mFabTop.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                startActivity(new Intent(MainActivity.this, StatusTextActivity.class));
-                            }
-                        });
-                        mFabBottom.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                                intent.setType("image/jpeg");
-                                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                                startActivityForResult(Intent.createChooser(intent, "Complete action using"), RC_PHOTO_PICKER);
-                            }
+                        mFabTop.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, StatusTextActivity.class)));
+                        mFabBottom.setOnClickListener(view -> {
+                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                            intent.setType("image/jpeg");
+                            intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                            startActivityForResult(Intent.createChooser(intent, "Complete action using"), RC_PHOTO_PICKER);
                         });
                         break;
                     default:
@@ -149,12 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         mFabBottom.hide();
                         mFabBottom.setImageResource(R.drawable.ic_phone_black_white_24dp);
                         mFabBottom.show();
-                        mFabBottom.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Toast.makeText(MainActivity.this, "view 3", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        mFabBottom.setOnClickListener(view -> Toast.makeText(MainActivity.this, "view 3", Toast.LENGTH_SHORT).show());
                         break;
 
                 }

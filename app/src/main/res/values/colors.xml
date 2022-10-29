@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#065E55</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#A70000</color>
+    <color name="colorPrimaryDark">#980202</color>
     <color name="colorAccent">#21C65A</color>
 
+
+    <color name="black">#000</color>
     <color name="statusIndigo">#8B6990</color>
     <color name="statusLightPink">#FF8A8C</color>
     <color name="statusGreen">#54C265</color>
@@ -25,6 +27,7 @@
     <color name="statusYellow">#F0B330</color>
     <color name="statusLime">#B6B327</color>
     <color name="statusPurple">#C69FCC</color>
+    <color name="white">#fff</color>
 
     <array name="statusBackground">
         <item>@color/statusIndigo</item>
