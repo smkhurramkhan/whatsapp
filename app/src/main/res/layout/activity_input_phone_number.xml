@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".3"
-            android:backgroundTint="#00887A"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:drawableLeft="@drawable/ic_add_black_24dp"
             android:gravity="center"
             android:textSize="18sp"
@@ -69,7 +69,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".7"
-            android:backgroundTint="#00887A"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:hint="300XXXXXXXX"
             android:inputType="phone" />
     </LinearLayout>

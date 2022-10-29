@@ -1,23 +1,16 @@
 package com.iceka.whatsappclone;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,13 +18,12 @@ import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.TimeUnit;
+
+import timber.log.Timber;
 
 public class PhoneVerifyActivity extends AppCompatActivity {
 
@@ -39,15 +31,10 @@ public class PhoneVerifyActivity extends AppCompatActivity {
     private String verificationId;
 
     private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
 
     private EditText mEtCode;
-    private Button mBtNext;
+    private TextView mBtNext;
     private TextView mTvWaiting;
-    private Toolbar mToolbar;
-    private TextView mToolbarTitle;
     private TextView mTvCountdownSMS;
 
     private ProgressDialog mProgressDialog;
@@ -57,14 +44,13 @@ public class PhoneVerifyActivity extends AppCompatActivity {
         public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
-            Log.i("TESTAJA", "verifid : " + verificationId);
         }
 
         @Override
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
             String code = phoneAuthCredential.getSmsCode();
             if (code != null) {
-                Log.i("TESTAJA", "code : " + code);
+                Timber.d("otp code : %s", code);
                 mEtCode.setText(code);
                 showProgressDialog(code);
 //                verifyCode(code);
@@ -83,34 +69,28 @@ public class PhoneVerifyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_phone_verify);
 
         phoneNumber = getIntent().getStringExtra("phonenumber");
-        Log.i("TESTAJA", "No hp : " + phoneNumber);
 
         mEtCode = findViewById(R.id.et_verification_code);
         mBtNext = findViewById(R.id.bt_next_main);
         mTvWaiting = findViewById(R.id.tv_wating_text);
-        mToolbarTitle = findViewById(R.id.toolbar_title_input_number);
+        //mToolbarTitle = findViewById(R.id.toolbar_title_input_number);
         mTvCountdownSMS = findViewById(R.id.tv_countdown_sms);
 
         String test = getString(R.string.waiting_sms, phoneNumber);
         mTvWaiting.setText(test);
-        mToolbarTitle.setText("Verify " + phoneNumber);
+        //mToolbarTitle.setText("Verify " + phoneNumber);
 
         mEtCode.requestFocus();
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         sendVerificationCode(phoneNumber);
 
         mProgressDialog = new ProgressDialog(this);
 
-        mBtNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String code = mEtCode.getText().toString();
-                showProgressDialog(code);
-            }
+        mBtNext.setOnClickListener(view -> {
+            String code = mEtCode.getText().toString();
+            showProgressDialog(code);
         });
     }
 
@@ -149,27 +129,19 @@ public class PhoneVerifyActivity extends AppCompatActivity {
         mProgressDialog.setCancelable(false);
         mProgressDialog.setMessage("Verifying");
         mProgressDialog.show();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int loading = 0;
-                while (loading < 100) {
-                    try {
-                        Thread.sleep(150);
-                        loading += 20;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        new Thread(() -> {
+            int loading = 0;
+            while (loading < 100) {
+                try {
+                    Thread.sleep(150);
+                    loading += 20;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                mProgressDialog.dismiss();
-                PhoneVerifyActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        verifyCode(code);
-                    }
-                });
-
             }
+            mProgressDialog.dismiss();
+            PhoneVerifyActivity.this.runOnUiThread(() -> verifyCode(code));
+
         }).start();
     }
 

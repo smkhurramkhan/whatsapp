@@ -22,7 +22,7 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
-        <item name="android:textColorSecondary">#128C7F</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
     </style>
 
 
