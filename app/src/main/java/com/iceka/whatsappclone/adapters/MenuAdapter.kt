@@ -39,12 +39,13 @@ class MenuAdapter(
             } else {
                 newBg.visibility = View.GONE
             }
+
+            parent.setOnClickListener {
+                onClick(position)
+            }
         }
 
 
-        holder.itemView.setOnClickListener {
-            onClick(position)
-        }
     }
 
     override fun getItemCount(): Int {

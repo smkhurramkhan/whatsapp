@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,13 +27,9 @@ import com.iceka.whatsappclone.R;
 import com.iceka.whatsappclone.models.Conversation;
 import com.iceka.whatsappclone.models.User;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -85,10 +80,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.MyView
                         intent.putExtra("userUid", conversation.getChatWithId());
                         intent.putExtra("otherUid", user.getUid());
                         mContext.startActivity(intent);
-                        if (user.isOnline()) {
-                            Toast.makeText(mContext, "online BOSS : " + user.getLastSeen(), Toast.LENGTH_SHORT).show();
 
-                        }
                     }
                 });
             }

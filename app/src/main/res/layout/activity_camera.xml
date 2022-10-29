@@ -73,4 +73,6 @@
         android:text="Hold for video, tap for photo"
         android:textColor="@android:color/white" />
 
+
+
 </RelativeLayout>

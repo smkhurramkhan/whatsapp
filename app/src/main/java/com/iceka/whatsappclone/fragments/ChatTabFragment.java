@@ -1,5 +1,6 @@
 package com.iceka.whatsappclone.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.iceka.whatsappclone.ContactActivity;
 import com.iceka.whatsappclone.R;
 import com.iceka.whatsappclone.adapters.ChatListAdapter;
 import com.iceka.whatsappclone.models.Conversation;
@@ -34,10 +37,12 @@ public class ChatTabFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private LinearLayout mStartChatLayout;
 
+    private FloatingActionButton mFabBottom;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mConversationReference;
     private FirebaseAuth mAuth;
     private FirebaseUser mFirebaseUser;
+
 
     private ChatListAdapter mAdapter;
 
@@ -58,6 +63,8 @@ public class ChatTabFragment extends Fragment {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        mFabBottom = rootView.findViewById(R.id.fab_bottom);
+
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mAuth.getCurrentUser();
@@ -65,6 +72,8 @@ public class ChatTabFragment extends Fragment {
         mConversationReference = mFirebaseDatabase.getReference().child("conversation").child(mFirebaseUser.getUid());
 
         getData();
+
+        mFabBottom.setOnClickListener(view -> startActivity(new Intent(requireContext(), ContactActivity.class)));
 
         return rootView;
     }
