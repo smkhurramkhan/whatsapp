@@ -92,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingLeft="4dp"
+                android:visibility="gone"
                 android:src="@drawable/ic_insert_emoticon_black_24dp" />
 
             <EditText
@@ -107,6 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:src="@drawable/ic_attach_file_black_24dp" />
 
             <ImageView
@@ -116,6 +118,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="6dp"
                 android:paddingRight="4dp"
+                android:visibility="gone"
                 android:src="@drawable/ic_insert_photo_black_24dp" />
 
         </LinearLayout>

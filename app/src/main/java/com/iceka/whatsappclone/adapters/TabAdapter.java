@@ -23,7 +23,8 @@ public class TabAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
+        return new ChatTabFragment();
+/*        switch (position) {
             case 0:
                 return new CameraTabFragment();
             case 1:
@@ -33,18 +34,20 @@ public class TabAdapter extends FragmentPagerAdapter {
             default:
                 return new CallsTabFragment();
 
-        }
+        }*/
     }
 
     @Override
     public int getCount() {
-        return 4;
+        return 1;
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position == 0) {
+
+        return "Chats";
+/*        if (position == 0) {
             return null;
         } else if (position == 1) {
             return "Chats";
@@ -52,6 +55,6 @@ public class TabAdapter extends FragmentPagerAdapter {
             return "Status";
         } else {
             return "Calls";
-        }
+        }*/
     }
 }

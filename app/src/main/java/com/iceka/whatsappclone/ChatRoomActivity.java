@@ -253,8 +253,8 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_chat, menu);
-        return true;
+       // getMenuInflater().inflate(R.menu.menu_chat, menu);
+        return false;
     }
 
     @Override

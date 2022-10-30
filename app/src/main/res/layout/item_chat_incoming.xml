@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_layout_chat_out"
     android:layout_width="match_parent"
+    android:background="@drawable/incoming_layout_bg"
     android:layout_height="wrap_content"
     android:layout_marginRight="30dp">
 
@@ -12,6 +14,7 @@
         android:id="@+id/layout_first_incoming"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -21,15 +24,18 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="@id/tv_time_chat_outgoing"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/layout_first">
-
+            app:layout_constraintTop_toTopOf="@id/layout_first"
+            tools:ignore="NotSibling">
 
             <TextView
                 android:id="@+id/tv_chat_incoming"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ini adalah yanhgjhskfjfasdfa bisa gini gangerti "
+                android:textAlignment="textEnd"
+                android:layout_marginTop="20dp"
+                android:text=" ini adalah yanhgjhskfjfasdfa bisa gini gangerti "
                 android:textColor="@android:color/black" />
+
         </LinearLayout>
 
         <TextView
@@ -37,11 +43,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10:10 PM"
+            android:layout_marginTop="10dp"
             android:textSize="12sp"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="15dp"
             app:layout_constraintTop_toTopOf="@id/layout_first"
             app:layout_constraintBottom_toBottomOf="@id/layout_first"
-            app:layout_constraintEnd_toEndOf="@id/layout_first"/>
+            app:layout_constraintEnd_toEndOf="@id/layout_first"
+            tools:ignore="NotSibling" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/skin"
     android:orientation="vertical">
 
     <LinearLayout
@@ -30,12 +31,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingLeft="4dp"
+            android:visibility="gone"
             android:src="@drawable/ic_insert_emoticon_black_24dp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:visibility="gone"
             android:src="@drawable/ic_attach_file_black_24dp" />
 
         <ImageView
@@ -45,6 +48,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="6dp"
             android:paddingRight="4dp"
+            android:visibility="gone"
             android:src="@drawable/ic_insert_photo_black_24dp" />
 
     </LinearLayout>

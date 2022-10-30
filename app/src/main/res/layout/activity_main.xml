@@ -33,15 +33,15 @@
             android:background="@android:color/white"
             android:elevation="4dp"
             android:minHeight="?attr/actionBarSize"
-            app:tabBackground="@color/colorPrimary"
+            app:tabBackground="@color/white"
             app:tabGravity="fill"
             app:tabIconTint="#83AFA9"
             app:tabIndicatorColor="@android:color/white"
             app:tabIndicatorHeight="4dp"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@android:color/white"
+            app:tabSelectedTextColor="@color/black"
             app:tabTextAppearance="@style/TabLayoutTextStyle"
-            app:tabTextColor="#83AFA9" />
+            app:tabTextColor="#070707" />
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -74,6 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
+            android:visibility="gone"
             android:src="@drawable/ic_comment_white_24dp" />
 
     </LinearLayout>

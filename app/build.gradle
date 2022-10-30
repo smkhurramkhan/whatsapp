@@ -27,6 +27,10 @@ android {
         enabled = true
     }
     namespace 'com.iceka.whatsappclone'
+    //...
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {

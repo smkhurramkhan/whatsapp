@@ -11,16 +11,15 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.iceka.whatsappclone.R;
 import com.iceka.whatsappclone.models.StatusItem;
 import com.iceka.whatsappclone.models.Viewed;
-
+import com.iceka.whatsappclone.R;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class StatusFlipperAdapter extends BaseAdapter {
 

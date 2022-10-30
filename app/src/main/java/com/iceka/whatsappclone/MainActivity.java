@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,9 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_PHOTO_PICKER = 2;
     private Toolbar mToolbar;
     private AppBarLayout mAppBarLayout;
-
     private FloatingActionButton mFab;
-
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference userReference;
@@ -67,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(1);
 
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.getTabAt(0).setIcon(R.drawable.ic_camera_alt_white_24dp);
+       // mTabLayout.getTabAt(0).setIcon(R.drawable.ic_camera_alt_white_24dp);
 
         LinearLayout layout = ((LinearLayout) ((LinearLayout) mTabLayout.getChildAt(0)).getChildAt(0));
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) layout.getLayoutParams();
@@ -108,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         mFabTop.hide();
-                        mFabBottom.setImageResource(R.drawable.ic_camera_alt_white_24dp);
+                     //   mFabBottom.setImageResource(R.drawable.ic_camera_alt_white_24dp);
                         mFabTop.show();
                         mFabBottom.hide();
                         mFabBottom.show();
@@ -187,8 +184,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+       // getMenuInflater().inflate(R.menu.menu_main, menu);
+        return false;
     }
 
     @Override
