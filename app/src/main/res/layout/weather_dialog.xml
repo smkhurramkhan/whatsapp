@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@drawable/ic_dialog_bg"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#C9C9C9" />
+
+
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/weatherwalay_nowcast"
+            android:textColor="#A70000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnClose" />
+
+
+        <ImageView
+            android:id="@+id/sunnyview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_sunny"
+            app:layout_constraintEnd_toStartOf="@id/weatherDegree"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/heading" />
+
+
+        <TextView
+            android:id="@+id/approx"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/approx"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/weatherDegree"
+            app:layout_constraintEnd_toEndOf="@id/weatherDegree"
+            app:layout_constraintStart_toStartOf="@id/weatherDegree" />
+
+
+        <TextView
+            android:id="@+id/weatherDegree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_30"
+            android:textColor="@color/black"
+            android:textSize="42sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/sunnyview"
+            app:layout_constraintEnd_toStartOf="@id/line"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/sunnyview"
+            app:layout_constraintTop_toTopOf="@id/sunnyview" />
+
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_line"
+            app:layout_constraintBottom_toBottomOf="@id/sunnyview"
+            app:layout_constraintEnd_toStartOf="@id/highHeading"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/weatherDegree"
+            app:layout_constraintTop_toTopOf="@id/sunnyview" />
+
+        <TextView
+            android:id="@+id/highHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:padding="4dp"
+            android:text="@string/_32_nhigh"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/lowHeading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/line"
+            app:layout_constraintTop_toTopOf="@id/line" />
+
+
+        <TextView
+            android:id="@+id/lowHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/_28_nlow"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/line"
+            app:layout_constraintEnd_toEndOf="@id/highHeading"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/highHeading"
+            app:layout_constraintTop_toBottomOf="@id/highHeading" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hourlyRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_margin="12dp"
+            android:background="#F9F9F9"
+            app:layout_constraintTop_toBottomOf="@id/sunnyview" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/weeklyRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/hourlyRecycler"
+
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

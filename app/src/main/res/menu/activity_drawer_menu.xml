@@ -36,6 +36,11 @@
             android:id="@+id/action_contact"
             android:icon="@drawable/ic_contact"
             android:title="Contact Us" />
+
+        <item
+            android:id="@+id/action_logout"
+            android:icon="@drawable/ic_exit"
+            android:title="Logout" />
     </group>
 
 </menu>

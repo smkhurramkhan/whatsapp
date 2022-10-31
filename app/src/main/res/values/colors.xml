@@ -30,6 +30,7 @@
     <color name="statusLime">#B6B327</color>
     <color name="statusPurple">#C69FCC</color>
     <color name="white">#fff</color>
+    <color name="grey">#C1C0C0</color>
 
     <array name="statusBackground">
         <item>@color/statusIndigo</item>

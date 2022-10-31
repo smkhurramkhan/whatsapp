@@ -229,4 +229,13 @@
     <string name="enter_6_digit_code">Enter 6-digit code</string>
     <string name="please_provide_your_name_and_an_optional_profile_photourl">Please Enter your name and an optional profile photoUrl</string>
     <string name="next">Next</string>
+    <string name="weatherwalay_nowcast">Weatherwalay Nowcast</string>
+    <string name="_30">30°</string>
+    <string name="_32_nhigh">32°\nHigh</string>
+    <string name="_32_degree">32°</string>
+    <string name="_15_degree">15°</string>
+    <string name="_28_nlow">28°\nlow</string>
+    <string name="approx">Approx</string>
+    <string name="low">Low</string>
+    <string name="monday">Monday</string>
 </resources>

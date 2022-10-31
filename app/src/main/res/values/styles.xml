@@ -19,6 +19,12 @@
         <item name="textAllCaps">true</item>
     </style>
 
+
+    <style name="CustomAlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/ic_dialog_bg</item>
+    </style>
+
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="ToolbarColoredBackArrow" parent="AppTheme">

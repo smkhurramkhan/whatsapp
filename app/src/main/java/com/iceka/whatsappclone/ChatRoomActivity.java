@@ -133,25 +133,22 @@ public class ChatRoomActivity extends AppCompatActivity {
                 if (charSequence.length() == 0) {
                     showSendButton();
                     mAttachPict.setVisibility(View.GONE);
-                    mFab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String contoh = mMessageText.getText().toString();
-                            long timestamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-                            Chat chat = new Chat(contoh, mFirebaseUser.getUid(), idFromContact, timestamp);
-                            mChatReference.push().setValue(chat);
-                            mMessageText.setText("");
+                    mFab.setOnClickListener(view -> {
+                        String contoh = mMessageText.getText().toString();
+                        long timestamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+                        Chat chat = new Chat(contoh, mFirebaseUser.getUid(), idFromContact, timestamp);
+                        mChatReference.push().setValue(chat);
+                        mMessageText.setText("");
 
-                            unreadCount = unreadCount + 1;
-                            Conversation conversationSender = new Conversation(mFirebaseUser.getUid(), idFromContact, contoh, timestamp);
-                            Conversation conversationReceiver = new Conversation(idFromContact, mFirebaseUser.getUid(), contoh, timestamp, unreadCount);
+                        unreadCount = unreadCount + 1;
+                        Conversation conversationSender = new Conversation(mFirebaseUser.getUid(), idFromContact, contoh, timestamp);
+                        Conversation conversationReceiver = new Conversation(idFromContact, mFirebaseUser.getUid(), contoh, timestamp, unreadCount);
 
-                            DatabaseReference senderReference = mConversationReference.child(mFirebaseUser.getUid()).child(idFromContact);
-                            senderReference.setValue(conversationSender);
-                            DatabaseReference receiverReference = mConversationReference.child(idFromContact).child(mFirebaseUser.getUid());
-                            receiverReference.setValue(conversationReceiver);
+                        DatabaseReference senderReference = mConversationReference.child(mFirebaseUser.getUid()).child(idFromContact);
+                        senderReference.setValue(conversationSender);
+                        DatabaseReference receiverReference = mConversationReference.child(idFromContact).child(mFirebaseUser.getUid());
+                        receiverReference.setValue(conversationReceiver);
 
-                        }
                     });
 
                 }
@@ -165,7 +162,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.length() == 0) {
-                    showVoiceButton();
+                  //  showVoiceButton();
                     mAttachPict.setVisibility(View.VISIBLE);
                     mFab.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -266,9 +263,5 @@ public class ChatRoomActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
-        finish();
     }
 }
