@@ -16,12 +16,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".SplashActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,13 +47,17 @@
         <activity
             android:name=".InputPhoneNumberActivity"
             android:windowSoftInputMode="adjustNothing" />
-
         <activity android:name=".ContactActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".CameraActivity" />
         <activity
             android:name=".StatusTextActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+
+        <activity
+            android:name="com.iceka.whatsappclone.weather.WeatherWebview"
+            android:exported="true"
+            />
     </application>
 
 </manifest>

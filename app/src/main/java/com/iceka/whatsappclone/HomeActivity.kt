@@ -32,6 +32,7 @@ import com.iceka.whatsappclone.fragments.ChatTabFragment
 import com.iceka.whatsappclone.models.User
 import com.iceka.whatsappclone.models.WeatherModel
 import com.iceka.whatsappclone.newfrags.FragmentHome
+import com.iceka.whatsappclone.weather.WeatherWebview
 
 
 class HomeActivity : AppCompatActivity() {
@@ -202,7 +203,10 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.weather_menu -> {
-                weatherDialog()
+                val intent= Intent(this, WeatherWebview::class.java)
+                startActivity(intent)
+
+               // weatherDialog()
                 true
             }
             R.id.notification_menu -> {
