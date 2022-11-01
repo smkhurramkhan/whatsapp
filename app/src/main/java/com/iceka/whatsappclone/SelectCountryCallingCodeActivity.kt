@@ -42,7 +42,7 @@ class SelectCountryCallingCodeActivity : AppCompatActivity() {
 
     private val data: Unit
         get() {
-            mCountryCodeReference!!.addValueEventListener(object : ValueEventListener {
+            mCountryCodeReference?.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (snapshot in dataSnapshot.children) {
                         val countryCallingCode = snapshot.getValue(

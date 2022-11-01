@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.iceka.whatsappclone.CameraActivity
 import com.iceka.whatsappclone.R
-import com.iceka.whatsappclone.ShowMyStatusActivity
 import com.iceka.whatsappclone.adapters.StatusAdapter
 import com.iceka.whatsappclone.models.Status
 import com.iceka.whatsappclone.models.StatusItem
@@ -45,8 +44,8 @@ class StatusTabFragment : Fragment() {
     private var mViewedStatusRv: RecyclerView? = null
     private var mLayoutRecentStatus: LinearLayout? = null
     private var mLayoutViewedStatus: LinearLayout? = null
-    private val statusList: MutableList<Status?> = ArrayList()
-    private val statusListViewed: MutableList<Status?> = ArrayList()
+    private val statusList = mutableListOf<Status>()
+    private val statusListViewed = mutableListOf<Status>()
     private val viewedList: MutableList<String> = ArrayList()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -165,13 +164,6 @@ class StatusTabFragment : Fragment() {
                                     DateUtils.MINUTE_IN_MILLIS
                                 )
                                 mTimeStatus?.text = now
-                                layout?.setOnClickListener {
-                                    startActivity(
-                                        Intent(
-                                            context, ShowMyStatusActivity::class.java
-                                        )
-                                    )
-                                }
                             }
                         } else {
                             layout!!.setOnClickListener {
@@ -210,7 +202,7 @@ class StatusTabFragment : Fragment() {
                                     countList.add(status.statuscount)
                                     statusList.add(status)
                                 }
-                                val adapter = StatusAdapter(activity, statusList)
+                                val adapter = StatusAdapter(requireActivity(), statusList)
                                 mRecentStatusRv!!.adapter = adapter
                             }
                         }
@@ -277,29 +269,32 @@ class StatusTabFragment : Fragment() {
                     val status = snapshot.getValue(
                         Status::class.java
                     )
-                    mStatusReference!!.child(status!!.uid).child("allseen")
-                        .addValueEventListener(object : ValueEventListener {
+                    mStatusReference?.child(status?.uid!!)?.child("allseen")
+                        ?.addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     for (snapshot1 in dataSnapshot.children) {
                                         val viewed = snapshot1.getValue(Viewed::class.java)
-                                        if (viewed!!.uid == myId) {
+                                        if (viewed?.uid == myId) {
                                             for (i in statusList.indices) {
-                                                if (statusList[i]!!.uid == status.uid) {
+                                                if (statusList[i].uid == status.uid) {
                                                     statusList.removeAt(i)
                                                 }
                                             }
                                             if (statusList.size == 0) {
-                                                mLayoutRecentStatus!!.visibility = View.GONE
+                                                mLayoutRecentStatus?.visibility = View.GONE
                                             }
                                             statusListViewed.add(status)
-                                            val adapter = StatusAdapter(activity, statusListViewed)
-                                            mViewedStatusRv!!.adapter = adapter
+                                            val adapter = StatusAdapter(
+                                                requireActivity(),
+                                                statusListViewed
+                                            )
+                                            mViewedStatusRv?.adapter = adapter
                                         }
                                     }
-                                    mLayoutViewedStatus!!.visibility = View.VISIBLE
+                                    mLayoutViewedStatus?.visibility = View.VISIBLE
                                 } else {
-                                    mLayoutViewedStatus!!.visibility = View.GONE
+                                    mLayoutViewedStatus?.visibility = View.GONE
                                 }
                             }
 
@@ -320,6 +315,6 @@ class StatusTabFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        activity?.unregisterReceiver(broadcastReceiver)
+        requireActivity().unregisterReceiver(broadcastReceiver)
     }
 }

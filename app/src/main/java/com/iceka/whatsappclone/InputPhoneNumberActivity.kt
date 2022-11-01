@@ -1,161 +1,136 @@
-package com.iceka.whatsappclone;
+package com.iceka.whatsappclone
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.telephony.TelephonyManager;
-import android.view.Menu;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.app.ProgressDialog
+import android.content.DialogInterface
+import android.content.Intent
+import android.os.Bundle
+import android.telephony.TelephonyManager
+import android.view.Menu
+import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.*
+import com.iceka.whatsappclone.models.CountryCallingCode
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+class InputPhoneNumberActivity : AppCompatActivity() {
+    private var mEtPhoneNumber: EditText? = null
+    private var mCountryCode: EditText? = null
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.iceka.whatsappclone.models.CountryCallingCode;
-
-public class InputPhoneNumberActivity extends AppCompatActivity {
-
-    private EditText mEtPhoneNumber;
-    private EditText mCountryCode;
     //private EditText mEtCountryName;
-
-    private String mPhoneNumber;
-    private static final int COUNTRY_REQUEST = 1;
-    private String countryDialCode;
-
-    private ProgressDialog mProgressDialog;
-
-    private DatabaseReference mCountryCodesReference;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_input_phone_number);
-
-        //   Toolbar mToolbar = findViewById(R.id.toolbar_input_number);
-        mEtPhoneNumber = findViewById(R.id.et_phone_number);
-        mCountryCode = findViewById(R.id.et_country_code);
-        TextView mNext = findViewById(R.id.bt_next_input_number);
-        //mEtCountryName = findViewById(R.id.et_country_name);
-
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        mCountryCodesReference = firebaseDatabase.getReference().child("country_codes");
-
-        //setSupportActionBar(mToolbar);
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        mEtPhoneNumber.requestFocus();
-
-
-        mNext.setOnClickListener(view -> {
-            mPhoneNumber = "+" + mCountryCode.getText().toString() + mEtPhoneNumber.getText().toString();
-            if (mEtPhoneNumber.getText().toString().length() < 9) {
-                new AlertDialog.Builder(InputPhoneNumberActivity.this)
-                        .setMessage("The phone number you entered is too short for the country: " +
-                                "\n\nInclude your area code if you haven't.")
-                        .setPositiveButton("OK", (dialogInterface, i) -> dialogInterface.dismiss())
-                        .show();
+    private var mPhoneNumber: String? = null
+    private var countryDialCode: String? = null
+    private var mProgressDialog: ProgressDialog? = null
+    private var mCountryCodesReference: DatabaseReference? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_input_phone_number)
+        mEtPhoneNumber = findViewById(R.id.et_phone_number)
+        mCountryCode = findViewById(R.id.et_country_code)
+        val mNext = findViewById<TextView>(R.id.bt_next_input_number)
+        val firebaseDatabase = FirebaseDatabase.getInstance()
+        mCountryCodesReference = firebaseDatabase.reference.child("country_codes")
+        mEtPhoneNumber?.requestFocus()
+        mNext.setOnClickListener {
+            mPhoneNumber =
+                "+" + mCountryCode?.text.toString() + mEtPhoneNumber?.text.toString()
+            if (mEtPhoneNumber?.text.toString().length < 9) {
+                AlertDialog.Builder(this@InputPhoneNumberActivity)
+                    .setMessage(
+                        """
+    The phone number you entered is too short for the country: 
+    
+    Include your area code if you haven't.
+    """.trimIndent()
+                    )
+                    .setPositiveButton("OK") { dialogInterface: DialogInterface, i: Int -> dialogInterface.dismiss() }
+                    .show()
             } else {
-                showProgressDialog();
+                showProgressDialog()
             }
-        });
-
-
-        mProgressDialog = new ProgressDialog(this);
-
-        getData();
+        }
+        mProgressDialog = ProgressDialog(this)
+        data
     }
 
-    private void getData() {
-        TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        String phoneDefaultLocation = telephonyManager.getNetworkCountryIso().toUpperCase();
-
-        Query myQuery = mCountryCodesReference.orderByChild("code").equalTo(phoneDefaultLocation);
-        myQuery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    CountryCallingCode countryCallingCode = snapshot.getValue(CountryCallingCode.class);
-                    if (countryDialCode != null) {
-                        String tes = countryDialCode.replace("+", "");
-                        //mEtCountryName.setText(countryName);
-                        mCountryCode.setText(tes);
-                    } else {
-                        String tes = countryCallingCode.getDial_code().replace("+", "");
-                        //mEtCountryName.setText(countryCallingCode.getName());
-                        mCountryCode.setText(tes);
+    private val data: Unit
+         get() {
+            val telephonyManager = this.getSystemService(TELEPHONY_SERVICE) as TelephonyManager
+            val phoneDefaultLocation =
+                telephonyManager.networkCountryIso.uppercase(Locale.getDefault())
+            val myQuery =
+                mCountryCodesReference?.orderByChild("code")?.equalTo(phoneDefaultLocation)
+            myQuery?.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (snapshot in dataSnapshot.children) {
+                        val countryCallingCode = snapshot.getValue(
+                            CountryCallingCode::class.java
+                        )
+                        if (countryDialCode != null) {
+                            val tes = countryDialCode?.replace("+", "")
+                            mCountryCode?.setText(tes)
+                        } else {
+                            val tes = countryCallingCode!!.dial_code.replace("+", "")
+                            mCountryCode?.setText(tes)
+                        }
                     }
-
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+        }
 
+    private fun showDialog() {
+        val builder = AlertDialog.Builder(this@InputPhoneNumberActivity)
+        builder.setMessage("We will be verifying the phone number:\n\n$mPhoneNumber\n\nIs this OK, or would you like to edit the number?")
+            .setPositiveButton("OK") { dialogInterface: DialogInterface?, i: Int ->
+                val intent = Intent(this@InputPhoneNumberActivity, PhoneVerifyActivity::class.java)
+                intent.putExtra("phonenumber", mPhoneNumber)
+                startActivity(intent)
             }
-        });
+            .setNegativeButton("Edit") { dialogInterface: DialogInterface, i: Int -> dialogInterface.dismiss() }
+        val dialog = builder.create()
+        dialog.show()
     }
 
-    private void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(InputPhoneNumberActivity.this);
-        builder.setMessage("We will be verifying the phone number:" + "\n\n" + mPhoneNumber + "\n\nIs this OK, or would you like to edit the number?")
-                .setPositiveButton("OK", (dialogInterface, i) -> {
-                    Intent intent = new Intent(InputPhoneNumberActivity.this, PhoneVerifyActivity.class);
-                    intent.putExtra("phonenumber", mPhoneNumber);
-                    startActivity(intent);
-                })
-                .setNegativeButton("Edit", (dialogInterface, i) -> dialogInterface.dismiss());
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == COUNTRY_REQUEST) {
             if (resultCode == RESULT_OK) {
-                String countryName = data.getStringExtra("countryName");
-                countryDialCode = data.getStringExtra("countryDialCode");
-                String tes = countryDialCode.replace("+", "");
-               // mEtCountryName.setText(countryName);
-                mCountryCode.setText(tes);
+                countryDialCode = data?.getStringExtra("countryDialCode")
+                val tes = countryDialCode?.replace("+", "")
+                mCountryCode!!.setText(tes)
             }
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_input_phone_number, menu);
-        return true;
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_input_phone_number, menu)
+        return true
     }
 
-    private void showProgressDialog() {
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setMessage("Connecting");
-        mProgressDialog.show();
-        new Thread(() -> {
-            int loading = 0;
+    private fun showProgressDialog() {
+        mProgressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+        mProgressDialog?.setCancelable(false)
+        mProgressDialog?.setMessage("Connecting")
+        mProgressDialog?.show()
+        Thread {
+            var loading = 0
             while (loading < 100) {
                 try {
-                    Thread.sleep(150);
-                    loading += 20;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.sleep(150)
+                    loading += 20
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
                 }
             }
-            mProgressDialog.dismiss();
-            InputPhoneNumberActivity.this.runOnUiThread(() -> showDialog());
-        }).start();
+            mProgressDialog?.dismiss()
+            runOnUiThread { showDialog() }
+        }.start()
     }
 
+    companion object {
+        private const val COUNTRY_REQUEST = 1
+    }
 }

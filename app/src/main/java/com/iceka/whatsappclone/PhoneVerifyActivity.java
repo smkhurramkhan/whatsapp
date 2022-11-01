@@ -3,20 +3,15 @@ package com.iceka.whatsappclone;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -27,15 +22,11 @@ import timber.log.Timber;
 
 public class PhoneVerifyActivity extends AppCompatActivity {
 
-    private String phoneNumber;
     private String verificationId;
 
     private FirebaseAuth mFirebaseAuth;
 
     private EditText mEtCode;
-    private TextView mBtNext;
-    private TextView mTvWaiting;
-    private TextView mTvCountdownSMS;
 
     private ProgressDialog mProgressDialog;
 
@@ -53,7 +44,6 @@ public class PhoneVerifyActivity extends AppCompatActivity {
                 Timber.d("otp code : %s", code);
                 mEtCode.setText(code);
                 showProgressDialog(code);
-//                verifyCode(code);
             }
         }
 
@@ -68,17 +58,17 @@ public class PhoneVerifyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_verify);
 
-        phoneNumber = getIntent().getStringExtra("phonenumber");
+        String phoneNumber = getIntent().getStringExtra("phonenumber");
 
         mEtCode = findViewById(R.id.et_verification_code);
-        mBtNext = findViewById(R.id.bt_next_main);
-        mTvWaiting = findViewById(R.id.tv_wating_text);
+        TextView mBtNext = findViewById(R.id.bt_next_main);
+        TextView mTvWaiting = findViewById(R.id.tv_wating_text);
         //mToolbarTitle = findViewById(R.id.toolbar_title_input_number);
-        mTvCountdownSMS = findViewById(R.id.tv_countdown_sms);
+        TextView mTvCountdownSMS = findViewById(R.id.tv_countdown_sms);
 
         String test = getString(R.string.waiting_sms, phoneNumber);
         mTvWaiting.setText(test);
-        //mToolbarTitle.setText("Verify " + phoneNumber);
+
 
         mEtCode.requestFocus();
 

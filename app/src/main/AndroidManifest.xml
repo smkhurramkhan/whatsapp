@@ -35,9 +35,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".ShareMediaActivity" />
         <activity android:name=".SelectCountryCallingCodeActivity" />
-        <activity android:name=".ShowMyStatusActivity" />
         <activity android:name=".EditStatusActivity" />
         <activity android:name=".ShowOtherStatusActivity" />
         <activity android:name=".ChatRoomActivity" />
@@ -47,18 +45,13 @@
         <activity
             android:name=".InputPhoneNumberActivity"
             android:windowSoftInputMode="adjustNothing" />
-        <activity
-            android:name=".PhoneVerifyActivity"
-            android:windowSoftInputMode="adjustNothing" />
+
         <activity android:name=".ContactActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".CameraActivity" />
         <activity
             android:name=".StatusTextActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
-            android:name=".WelcomeActivity"
-            android:exported="true" />
     </application>
 
 </manifest>
