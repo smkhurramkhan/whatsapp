@@ -1,57 +1,38 @@
-package com.iceka.whatsappclone.adapters;
+package com.iceka.whatsappclone.adapters
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.iceka.whatsappclone.R
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.iceka.whatsappclone.R;
-
-import java.util.ArrayList;
-
-public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder> {
-
-    private ArrayList<String> images;
-    private Context mContext;
-
-    public GalleryAdapter(Context context, ArrayList<String> imageFacers) {
-        this.mContext = context;
-        this.images = imageFacers;
+class GalleryAdapter(private val mContext: Context, private val images: ArrayList<String>) :
+    RecyclerView.Adapter<GalleryAdapter.MyViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_gallery, parent, false)
+        return MyViewHolder(view)
     }
 
-    @NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gallery, parent, false);
-        return new MyViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         Glide.with(mContext)
-                .load(images.get(position))
-                .apply(new RequestOptions().centerCrop())
-                .into(holder.image);
+            .load(images[position])
+            .apply(RequestOptions().centerCrop())
+            .into(holder.image)
     }
 
-    @Override
-    public int getItemCount() {
-        return images.size();
+    override fun getItemCount(): Int {
+        return images.size
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var image: ImageView
 
-        ImageView image;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            image = itemView.findViewById(R.id.img_item_gallery);
+        init {
+            image = itemView.findViewById(R.id.img_item_gallery)
         }
     }
 }
