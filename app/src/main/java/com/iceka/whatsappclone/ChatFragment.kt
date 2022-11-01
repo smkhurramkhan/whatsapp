@@ -76,7 +76,7 @@ class ChatFragment : Fragment() {
                 if (charSequence.isEmpty()) {
                     showSendButton()
                     mAttachPict?.visibility = View.GONE
-                    mFab?.setOnClickListener(View.OnClickListener {
+                    mFab?.setOnClickListener {
                         val contoh = mMessageText?.text.toString()
                         val timestamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
                         val chat = Chat(contoh, mFirebaseUser?.uid, id, timestamp)
@@ -95,7 +95,7 @@ class ChatFragment : Fragment() {
                             mFirebaseUser?.uid!!
                         )
                         receiverReference.setValue(conversationReceiver)
-                    })
+                    }
                 }
             }
 
@@ -104,11 +104,11 @@ class ChatFragment : Fragment() {
                 if (editable.isEmpty()) {
                     showVoiceButton()
                     mAttachPict?.visibility = View.VISIBLE
-                    mFab?.setOnClickListener({ })
+                    mFab?.setOnClickListener { }
                 }
             }
         })
-        mChatReference!!.addChildEventListener(object : ChildEventListener {
+        mChatReference?.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                 val chat = dataSnapshot.getValue(Chat::class.java)
                 chat?.let { chatList.add(it) }
@@ -126,18 +126,18 @@ class ChatFragment : Fragment() {
     }
 
     private fun showSendButton() {
-        mFab!!.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_send_black_24dp))
-        mFab!!.tag = "send_image"
+        mFab?.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_send_black_24dp))
+        mFab?.tag = "send_image"
     }
 
     private fun showVoiceButton() {
-        mFab!!.setImageDrawable(
+        mFab?.setImageDrawable(
             ContextCompat.getDrawable(
-                context!!,
+                requireContext(),
                 R.drawable.ic_keyboard_voice_black_24dp
             )
         )
-        mFab!!.tag = "mic_image"
+        mFab?.tag = "mic_image"
     }
 
     companion object {

@@ -48,8 +48,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatRoomActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private ImageView backButton;
     private TextView username;
     private CircleImageView avatar;
     private TextView status;
@@ -60,14 +58,8 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     public static final String EXTRAS_USER = "user";
     public static String idFromContact = null;
-    private User mUser;
-    private String userUid;
-    private String chatId;
     private int unreadCount = 0;
-    private String otherUid;
 
-    private FirebaseDatabase mFirebaseDatabase;
-    private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mChatReference;
     private DatabaseReference mConversationReference;
@@ -82,9 +74,9 @@ public class ChatRoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
-        toolbar = findViewById(R.id.toolbar_chat_room);
+        Toolbar toolbar = findViewById(R.id.toolbar_chat_room);
         setSupportActionBar(toolbar);
-        backButton = findViewById(R.id.toolbar_back_button);
+        ImageView backButton = findViewById(R.id.toolbar_back_button);
         username = findViewById(R.id.username_chat_room);
         avatar = findViewById(R.id.avatar_chat_room);
         status = findViewById(R.id.last_seen_and_online);
@@ -97,13 +89,14 @@ public class ChatRoomActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         idFromContact = getIntent().getStringExtra("userUid");
-        userUid = mFirebaseUser.getUid();
+        String userUid = mFirebaseUser.getUid();
 
+        String chatId;
         if (userUid.compareTo(idFromContact) < idFromContact.compareTo(userUid)) {
             chatId = userUid + idFromContact;
         } else {
@@ -114,12 +107,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         mConversationReference = mFirebaseDatabase.getReference().child("conversation");
         mUserReference = mFirebaseDatabase.getReference().child("users");
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        backButton.setOnClickListener(view -> finish());
 
         getUserDetails();
         sendChatData();
@@ -164,11 +152,8 @@ public class ChatRoomActivity extends AppCompatActivity {
                 if (editable.length() == 0) {
                   //  showVoiceButton();
                     mAttachPict.setVisibility(View.VISIBLE);
-                    mFab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
+                    mFab.setOnClickListener(view -> {
 
-                        }
                     });
                 }
             }
@@ -223,8 +208,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                 long tes = calendar.getTimeInMillis();
                 DateFormat.format("M/dd/yyyy", calendar);
                 CharSequence now = DateUtils.getRelativeTimeSpanString(tes, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS);
-//                Toast.makeText(ChatRoomActivity.this, "online gk : " + user.isOnline(), Toast.LENGTH_SHORT).show();
-                if (user.isOnline()) {
+               if (user.isOnline()) {
                     status.setText("Online");
                 } else {
                     status.setText("Last seen " + now);
@@ -250,7 +234,6 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-       // getMenuInflater().inflate(R.menu.menu_chat, menu);
         return false;
     }
 
