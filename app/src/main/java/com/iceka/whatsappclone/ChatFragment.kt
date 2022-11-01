@@ -1,193 +1,150 @@
-package com.iceka.whatsappclone;
+package com.iceka.whatsappclone
 
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import android.widget.EditText
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.RecyclerView
+import com.iceka.whatsappclone.adapters.ChatRoomAdapter
+import com.iceka.whatsappclone.models.Chat
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import com.iceka.whatsappclone.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.DefaultItemAnimator
+import com.iceka.whatsappclone.ChatRoomActivity
+import android.text.TextWatcher
+import com.iceka.whatsappclone.models.Conversation
+import android.text.Editable
+import android.view.View
+import android.widget.ImageView
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.iceka.whatsappclone.ChatFragment
+import java.util.ArrayList
+import java.util.concurrent.TimeUnit
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.iceka.whatsappclone.adapters.ChatRoomAdapter;
-import com.iceka.whatsappclone.models.Chat;
-import com.iceka.whatsappclone.models.Conversation;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import static com.iceka.whatsappclone.ChatRoomActivity.idFromContact;
-
-public class ChatFragment extends Fragment {
-
-    private FirebaseDatabase mFirebaseDatabase;
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
-    private DatabaseReference mChatReference;
-    private DatabaseReference mConversationReference;
-
-    private String id;
-    private String userUid;
-    private String chatId;
-    private int unreadCount = 0;
-
-    private EditText mMessageText;
-    private FloatingActionButton mFab;
-    private RecyclerView mRecyclerView;
-    private ImageView mAttachPict;
-
-    private ChatRoomAdapter adapters;
-
-    private List<Chat> chatList = new ArrayList<>();
-
-
-    public static ChatFragment newInstance(Bundle bundle) {
-        ChatFragment fragment = new ChatFragment();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chat, container, false);
-
-        mMessageText = view.findViewById(R.id.et_message_chat);
-        mFab = view.findViewById(R.id.fab_chat);
-        mRecyclerView = view.findViewById(R.id.rv_chat);
-        mAttachPict = view.findViewById(R.id.img_attach_picture);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-
-        id = idFromContact;
-        userUid = mFirebaseUser.getUid();
-
-        if (userUid.compareTo(id) < id.compareTo(userUid)) {
-            chatId = userUid + id;
+class ChatFragment : Fragment() {
+    private var mFirebaseDatabase: FirebaseDatabase? = null
+    private var mFirebaseAuth: FirebaseAuth? = null
+    private var mFirebaseUser: FirebaseUser? = null
+    private var mChatReference: DatabaseReference? = null
+    private var mConversationReference: DatabaseReference? = null
+    private var id: String? = null
+    private var userUid: String? = null
+    private var chatId: String? = null
+    private var unreadCount = 0
+    private var mMessageText: EditText? = null
+    private var mFab: FloatingActionButton? = null
+    private var mRecyclerView: RecyclerView? = null
+    private var mAttachPict: ImageView? = null
+    private var adapters: ChatRoomAdapter? = null
+    private val chatList: MutableList<Chat> = ArrayList()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_chat, container, false)
+        mMessageText = view.findViewById(R.id.et_message_chat)
+        mFab = view.findViewById(R.id.fab_chat)
+        mRecyclerView = view.findViewById(R.id.rv_chat)
+        mAttachPict = view.findViewById(R.id.img_attach_picture)
+        val layoutManager = LinearLayoutManager(context)
+        mRecyclerView?.layoutManager = layoutManager
+        mRecyclerView?.itemAnimator = DefaultItemAnimator()
+        mFirebaseDatabase = FirebaseDatabase.getInstance()
+        mFirebaseAuth = FirebaseAuth.getInstance()
+        mFirebaseUser = mFirebaseAuth!!.currentUser
+        id = ChatRoomActivity.idFromContact
+        userUid = mFirebaseUser?.uid
+        chatId = if (userUid!!.compareTo(id!!) < id!!.compareTo(userUid!!)) {
+            userUid + id
         } else {
-            chatId = id + userUid;
+            id + userUid
         }
-
-        mChatReference = mFirebaseDatabase.getReference().child("chats").child(chatId);
-        mConversationReference = mFirebaseDatabase.getReference().child("conversation");
-
-        mMessageText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() == 0) {
-                    showSendButton();
-                    mAttachPict.setVisibility(View.GONE);
-                    mFab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String contoh = mMessageText.getText().toString();
-                            long timestamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-                            Chat chat = new Chat(contoh, mFirebaseUser.getUid(), id, timestamp);
-                            mChatReference.push().setValue(chat);
-                            mMessageText.setText("");
-
-                            unreadCount = unreadCount + 1;
-                            Conversation conversationSender = new Conversation(mFirebaseUser.getUid(), id, contoh, timestamp);
-                            Conversation conversationReceiver = new Conversation(id, mFirebaseUser.getUid(), contoh, timestamp, unreadCount);
-
-                            DatabaseReference senderReference = mConversationReference.child(mFirebaseUser.getUid()).child(id);
-                            senderReference.setValue(conversationSender);
-                            DatabaseReference receiverReference = mConversationReference.child(id).child(mFirebaseUser.getUid());
-                            receiverReference.setValue(conversationReceiver);
-
-                        }
-                    });
-
+        mChatReference = mFirebaseDatabase!!.reference.child("chats").child(chatId!!)
+        mConversationReference = mFirebaseDatabase!!.reference.child("conversation")
+        mMessageText?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                if (charSequence.isEmpty()) {
+                    showSendButton()
+                    mAttachPict?.visibility = View.GONE
+                    mFab?.setOnClickListener(View.OnClickListener {
+                        val contoh = mMessageText?.text.toString()
+                        val timestamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
+                        val chat = Chat(contoh, mFirebaseUser?.uid, id, timestamp)
+                        mChatReference?.push()?.setValue(chat)
+                        mMessageText?.setText("")
+                        unreadCount += 1
+                        val conversationSender =
+                            Conversation(mFirebaseUser?.uid, id, contoh, timestamp)
+                        val conversationReceiver =
+                            Conversation(id, mFirebaseUser?.uid, contoh, timestamp, unreadCount)
+                        val senderReference = mConversationReference!!.child(
+                            mFirebaseUser!!.uid
+                        ).child(id!!)
+                        senderReference.setValue(conversationSender)
+                        val receiverReference = mConversationReference!!.child(id!!).child(
+                            mFirebaseUser?.uid!!
+                        )
+                        receiverReference.setValue(conversationReceiver)
+                    })
                 }
             }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() == 0) {
-                    showVoiceButton();
-                    mAttachPict.setVisibility(View.VISIBLE);
-                    mFab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                        }
-                    });
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun afterTextChanged(editable: Editable) {
+                if (editable.isEmpty()) {
+                    showVoiceButton()
+                    mAttachPict?.visibility = View.VISIBLE
+                    mFab?.setOnClickListener({ })
                 }
             }
-        });
-
-
-        mChatReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Chat chat = dataSnapshot.getValue(Chat.class);
-                chatList.add(chat);
-                adapters = new ChatRoomAdapter(getActivity(), chatList);
-                mRecyclerView.smoothScrollToPosition(chatList.size() - 1);
-                mRecyclerView.setAdapter(adapters);
+        })
+        mChatReference!!.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
+                val chat = dataSnapshot.getValue(Chat::class.java)
+                chat?.let { chatList.add(it) }
+                adapters = ChatRoomAdapter(requireActivity(), chatList)
+                mRecyclerView?.smoothScrollToPosition(chatList.size - 1)
+                mRecyclerView?.adapter = adapters
             }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        return view;
+            override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {}
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
+            override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {}
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+        return view
     }
 
-
-    private void showSendButton() {
-        mFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_send_black_24dp));
-        mFab.setTag("send_image");
+    private fun showSendButton() {
+        mFab!!.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_send_black_24dp))
+        mFab!!.tag = "send_image"
     }
 
-    private void showVoiceButton() {
-        mFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_keyboard_voice_black_24dp));
-        mFab.setTag("mic_image");
+    private fun showVoiceButton() {
+        mFab!!.setImageDrawable(
+            ContextCompat.getDrawable(
+                context!!,
+                R.drawable.ic_keyboard_voice_black_24dp
+            )
+        )
+        mFab!!.tag = "mic_image"
     }
 
+    companion object {
+        fun newInstance(bundle: Bundle?): ChatFragment {
+            val fragment = ChatFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
 }

@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.iceka.whatsappclone.R
 
-class GalleryAdapter(private val mContext: Context, private val images: ArrayList<String>) :
+class GalleryAdapter(private val mContext: Context, private val images: ArrayList<String?>) :
     RecyclerView.Adapter<GalleryAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_gallery, parent, false)

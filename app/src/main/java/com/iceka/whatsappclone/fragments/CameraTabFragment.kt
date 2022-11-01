@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iceka.whatsappclone.EditStatusActivity
 import com.iceka.whatsappclone.R
 import com.iceka.whatsappclone.adapters.GalleryAdapter
-import com.iceka.whatsappclone.utils.RunTimePermissions
 import java.io.File
 
 class CameraTabFragment : Fragment() {
@@ -74,7 +73,7 @@ class CameraTabFragment : Fragment() {
         var images = ArrayList<String?>()
         if (images.isEmpty()) {
             images = allImages
-            val adapter = GalleryAdapter(context, images)
+            val adapter = GalleryAdapter(requireContext(), images)
             mRecyclerView?.adapter = adapter
         }
         mFlash?.setOnClickListener {
