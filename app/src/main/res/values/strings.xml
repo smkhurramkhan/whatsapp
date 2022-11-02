@@ -243,4 +243,5 @@
     <string name="congrats">Congratulations</string>
     <string name="you_have_successfully_subscribed_to_jazz_my_status_service">You have successfully subscribed to Jazz My Status Service.</string>
     <string name="unsub">Unsubscribe</string>
+    <string name="set_status">Set status</string>
 </resources>

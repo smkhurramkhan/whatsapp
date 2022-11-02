@@ -7,13 +7,16 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.iceka.whatsappclone.R
+import com.iceka.whatsappclone.adapters.FeaturesAdapter
 import com.iceka.whatsappclone.databinding.ActivityMyStatusBinding
 import com.iceka.whatsappclone.databinding.SubscriptionDialogBinding
 import com.iceka.whatsappclone.interfaces.NetworkInterfaceCalls
+import com.iceka.whatsappclone.models.ModelFeatures
 import com.iceka.whatsappclone.network.SubNetworkCall
 import com.iceka.whatsappclone.network.UnsubscibeNetworkCall
 import com.iceka.whatsappclone.networkmodels.SubModel
@@ -33,11 +36,16 @@ class MyStatusActivity : AppCompatActivity(), NetworkInterfaceCalls {
     private var sharedPref: SharedPrefs? = null
     private var alertDialog: AlertDialog? = null
 
+    private var featuresList = mutableListOf<ModelFeatures>()
+    private var featuresAdapter: FeaturesAdapter? = null
+
     val videoId = "azsQKBYn5rU";
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyStatusBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setFeaturesData()
 
         sharedPref = SharedPrefs(this)
         subNetworkCall = SubNetworkCall(this)
@@ -50,10 +58,18 @@ class MyStatusActivity : AppCompatActivity(), NetworkInterfaceCalls {
         if (sharedPref?.getIsSub() == true) {
             binding.unsubscribe.visibility = View.VISIBLE
             binding.subscribe.visibility = View.GONE
+
+            binding.featuresRecycler.visibility = View.VISIBLE
+            binding.groupNo1.visibility = View.GONE
         } else {
             binding.subscribe.visibility = View.VISIBLE
             binding.unsubscribe.visibility = View.GONE
+
+            binding.featuresRecycler.visibility = View.GONE
+            binding.groupNo1.visibility = View.VISIBLE
         }
+
+        setFeaturesAdapter()
 
 
         Glide.with(this).load("https://img.youtube.com/vi/$videoId/mqdefault.jpg")
@@ -153,14 +169,20 @@ class MyStatusActivity : AppCompatActivity(), NetworkInterfaceCalls {
             }
         }
 
-
         if (sharedPref?.getIsSub() == true) {
             binding.unsubscribe.visibility = View.VISIBLE
             binding.subscribe.visibility = View.GONE
+
+            binding.featuresRecycler.visibility = View.VISIBLE
+            binding.groupNo1.visibility = View.GONE
         } else {
             binding.subscribe.visibility = View.VISIBLE
             binding.unsubscribe.visibility = View.GONE
+
+            binding.featuresRecycler.visibility = View.GONE
+            binding.groupNo1.visibility = View.VISIBLE
         }
+
 
     }
 
@@ -169,24 +191,32 @@ class MyStatusActivity : AppCompatActivity(), NetworkInterfaceCalls {
 
         when (className) {
             "SubscibeCall" -> {
+                sharedPref?.isSubscribed(true)
                 Timber.d("Exception is $exception $className")
             }
             "UnSubscibeCall" -> {
+                sharedPref?.isSubscribed(false)
                 Timber.d("Exception is $exception $className")
             }
         }
 
 
-        sharedPref?.isSubscribed(true)
 
 
         if (sharedPref?.getIsSub() == true) {
             binding.unsubscribe.visibility = View.VISIBLE
             binding.subscribe.visibility = View.GONE
+
+            binding.featuresRecycler.visibility = View.VISIBLE
+            binding.groupNo1.visibility = View.GONE
         } else {
             binding.subscribe.visibility = View.VISIBLE
             binding.unsubscribe.visibility = View.GONE
+
+            binding.featuresRecycler.visibility = View.GONE
+            binding.groupNo1.visibility = View.VISIBLE
         }
+
 
     }
 
@@ -210,5 +240,73 @@ class MyStatusActivity : AppCompatActivity(), NetworkInterfaceCalls {
         }
 
 
+    }
+
+    private fun setFeaturesData() {
+        featuresList.add(
+            ModelFeatures(
+                1,
+                "Set status",
+                false
+            )
+        )
+
+        featuresList.add(
+            ModelFeatures(
+                2,
+                "Change status",
+                false
+            )
+        )
+
+        featuresList.add(
+            ModelFeatures(
+                3,
+                "Set status for specific number",
+                false
+            )
+        )
+
+        featuresList.add(
+            ModelFeatures(
+                4,
+                "Set status for a group",
+                false
+            )
+        )
+
+        featuresList.add(
+            ModelFeatures(
+                5,
+                "Delete status for specific number",
+                false
+            )
+        )
+
+        featuresList.add(
+            ModelFeatures(
+                6,
+                "Add number to blacklist",
+                false
+            )
+        )
+
+        featuresList.add(
+            ModelFeatures(
+                7,
+                "Delete number from blacklist",
+                false
+            )
+        )
+    }
+
+
+    private fun setFeaturesAdapter() {
+        featuresAdapter = FeaturesAdapter(
+            this,
+            featuresList
+        )
+        binding.featuresRecycler.layoutManager = LinearLayoutManager(this)
+        binding.featuresRecycler.adapter = featuresAdapter
     }
 }
