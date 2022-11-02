@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -35,10 +36,13 @@ class FragmentUser : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentUserBinding.inflate(layoutInflater)
         return binding.root
-        //Toast.makeText(requireActivity(),"sdfsdfes fdfd",Toast.LENGTH_LONG).show()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         mFirebaseDatabase = FirebaseDatabase.getInstance()
         mFirebaseAuth = FirebaseAuth.getInstance()
         mFirebaseUser = mFirebaseAuth?.currentUser
@@ -46,12 +50,6 @@ class FragmentUser : Fragment() {
         userUid = mFirebaseUser?.uid
         mUserReference = mFirebaseDatabase?.reference?.child("users")
         getUserDetails()
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun getUserDetails() {
@@ -62,17 +60,16 @@ class FragmentUser : Fragment() {
                         User::class.java
                     )
 
-                    binding.etCreateProfileUsername?.text = user?.username
-                    activity?.let {
-                        binding.imgAvatarCreate?.let { it1 ->
-                            Glide.with(it)
-                                .load(user?.photoUrl)
-                                .into(it1)
-                        }
-                    }
+                    binding.etCreateProfileUsername.text = user?.username
+
+                    Glide.with(requireContext())
+                        .load(user?.photoUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(binding.imgAvatarCreate)
 
 
-                    binding.etCreateProfilePhoneNumber?.text = user?.phone
+
+                    binding.etCreateProfilePhoneNumber.text = user?.phone
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
