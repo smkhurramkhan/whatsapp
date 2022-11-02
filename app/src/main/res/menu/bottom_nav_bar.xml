@@ -12,10 +12,7 @@
         android:icon="@drawable/ic_messaging"
         android:title="Messaging" />
 
-    <item
-        android:id="@+id/location"
-        android:icon="@drawable/ic_location"
-        android:title="Location" />
+
 
     <item
         android:id="@+id/bag"

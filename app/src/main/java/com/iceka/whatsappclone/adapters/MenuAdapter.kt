@@ -35,7 +35,7 @@ class MenuAdapter(
 
             itemName.text = menu.title
             if (menu.isNew) {
-                newBg.visibility = View.VISIBLE
+                newBg.visibility = View.GONE
             } else {
                 newBg.visibility = View.GONE
             }

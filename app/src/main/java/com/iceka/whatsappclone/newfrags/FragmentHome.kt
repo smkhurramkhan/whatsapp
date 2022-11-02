@@ -29,33 +29,57 @@ class FragmentHome : Fragment() {
         super.onCreate(savedInstanceState)
         setSliderList()
         setDataList()
-
     }
 
     private fun setDataList() {
         dataList.add(
-            MenuModel(1, "Missed Call Alert", R.drawable.ic_phone_red, false)
+            MenuModel(1, "Missed Call Alert", R.drawable.missed_sms_alert, false)
         )
         dataList.add(
-            MenuModel(2, "Smart SMS", R.drawable.ic_sms_red, false)
+            MenuModel(2, "Smart SMS", R.drawable.smart_sms, false)
         )
         dataList.add(
-            MenuModel(3, "Collect Call", R.drawable.ic_collect_call_red, false)
+            MenuModel(3, "Collect Call", R.drawable.collact_call, false)
         )
         dataList.add(
-            MenuModel(4, "VIP Call", R.drawable.ic_vip_call_red, true)
+            MenuModel(4, "VIP CALL",R.drawable.vip_call, true)
         )
         dataList.add(
-            MenuModel(5, "Intro Me", R.drawable.ic_intro_me_red, false)
+            MenuModel(4, "Notify Me", R.drawable.notify_me, true)
+        )
+
+        dataList.add(
+            MenuModel(6, "Sponsor Me", R.drawable.sponsor_me, true)
         )
         dataList.add(
-            MenuModel(6, "Sponsor Me", R.drawable.ic_sponsor_me_red, true)
+            MenuModel(7, "My Status", R.drawable.my_status, true)
         )
         dataList.add(
-            MenuModel(7, "Jazz Share", R.drawable.ic_jazz_share_red, true)
+            MenuModel(8, "Jazz Tunes", R.drawable.jazz_tunes, false)
         )
         dataList.add(
-            MenuModel(8, "Jazz Tunes", R.drawable.ic_jazz_tunes_red, false)
+            MenuModel(8, "Youth Central", R.drawable.youth_central, false)
+        )
+        dataList.add(
+            MenuModel(8, "Bima Insurance", R.drawable.bima_insurance, false)
+        )
+        dataList.add(
+            MenuModel(8, "Mobile Magazine", R.drawable.mobile_magazine, false)
+        )
+        dataList.add(
+            MenuModel(8, "Jazz Drive", R.drawable.jazz_drive, false)
+        )
+        dataList.add(
+            MenuModel(8, "Self Service Dial", R.drawable.self_service_dial_codes, false)
+        )
+        dataList.add(
+            MenuModel(8, "Job Alerts", R.drawable.job_alerts, false)
+        )
+        dataList.add(
+            MenuModel(8, "Zero Balance Call", R.drawable.zero_balance_call, false)
+        )
+        dataList.add(
+            MenuModel(8, "Jazz Parhu", R.drawable.jazz_parho, false)
         )
     }
 
@@ -140,7 +164,7 @@ class FragmentHome : Fragment() {
 
     private fun setSliderList() {
         sliderList.add(
-            ModelSlider(1, "slider 1", R.drawable.slider1)
+            ModelSlider(1, "slider 1", R.drawable.jazz_mosafir)
         )
         sliderList.add(
             ModelSlider(2, "slider 2", R.drawable.slider2)

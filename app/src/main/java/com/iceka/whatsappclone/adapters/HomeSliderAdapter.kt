@@ -13,6 +13,7 @@ class HomeSliderAdapter(
     var context: Context,
     var dataList: List<ModelSlider>
 ) : RecyclerView.Adapter<SliderVH>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SliderVH {
         return SliderVH(
             ItemSlidersBinding.inflate(
@@ -31,6 +32,7 @@ class HomeSliderAdapter(
                 .into(imageView)
         }
     }
+
 
     override fun getItemCount(): Int {
         return dataList.size

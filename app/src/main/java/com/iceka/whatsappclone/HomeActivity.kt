@@ -175,9 +175,9 @@ class HomeActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener =
         NavigationBarView.OnItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
-                R.id.location -> {
+   /*             R.id.location -> {
                     Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show()
-                }
+                }*/
                 R.id.messaging -> {
                     loadFragment(ChatTabFragment())
                 }
