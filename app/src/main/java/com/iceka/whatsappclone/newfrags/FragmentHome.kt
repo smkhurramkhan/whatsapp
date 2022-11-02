@@ -25,6 +25,7 @@ import com.iceka.whatsappclone.models.ModelSlider
 import com.iceka.whatsappclone.network.SubNetworkCall
 import com.iceka.whatsappclone.network.UnsubscibeNetworkCall
 import com.iceka.whatsappclone.networkmodels.SubModel
+import com.iceka.whatsappclone.status.MyStatusActivity
 import timber.log.Timber
 
 
@@ -234,7 +235,7 @@ class FragmentHome : Fragment(), NetworkInterfaceCalls {
                     }
                     3 -> {
                         Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
-                        sendSMS("923239978847","hello")
+                        sendSMS("923211609211","hello")
 
                     }
                     4 -> {
@@ -272,18 +273,18 @@ class FragmentHome : Fragment(), NetworkInterfaceCalls {
     private fun setSliderList()
     {
         sliderList.add(
-            ModelSlider(1, "slider 1", R.drawable.mosafir_banner)
+            ModelSlider(1, "slider 1", R.drawable.fitflex)
         )
         sliderList.add(
-            ModelSlider(2, "slider 2", R.drawable.slider2)
-        )
-
-        sliderList.add(
-            ModelSlider(4, "slider 4", R.drawable.slider4)
+            ModelSlider(2, "slider 2", R.drawable.jazz_mosafir)
         )
 
         sliderList.add(
-            ModelSlider(3, "slider 3", R.drawable.slider3)
+            ModelSlider(4, "slider 4", R.drawable.farmtohome)
+        )
+
+        sliderList.add(
+            ModelSlider(3, "slider 3", R.drawable.weatherwalay)
         )
     }
 

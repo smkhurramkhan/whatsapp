@@ -53,11 +53,6 @@
 
     </LinearLayout>
 
-    <!--    <ListView-->
-    <!--        android:id="@+id/listview"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:layout_above="@id/layout_bottom_chat" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_chat"
