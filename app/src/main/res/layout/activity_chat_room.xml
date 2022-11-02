@@ -102,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:paddingStart="8dp"
                 android:backgroundTint="@color/fui_transparent"
                 android:hint="Type a Message" />
 
@@ -144,7 +145,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
             android:backgroundTint="#00897b"
-            android:src="@drawable/ic_keyboard_voice_black_24dp" />
+            android:src="@drawable/ic_send_black_24dp" />
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
