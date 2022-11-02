@@ -1,77 +1,24 @@
-package com.iceka.whatsappclone.models;
+package com.iceka.whatsappclone.models
 
-import java.util.List;
+class Chat {
+    var username: String? = null
+    var message: String? = null
+    var senderUid: String? = null
+    var receiverUid: String? = null
+    var imageResourceId = 0
+    var timestamp: Long = 0
 
-public class Chat {
-
-    private String username;
-    private String message;
-    private String senderUid;
-    private String receiverUid;
-    private int imageResourceId;
-    private long timestamp;
-
-    public Chat() {
+    constructor() {}
+    constructor(username: String?, message: String?, imageResourceId: Int) {
+        this.username = username
+        this.message = message
+        this.imageResourceId = imageResourceId
     }
 
-    public Chat(String username, String message, int imageResourceId) {
-        this.username = username;
-        this.message = message;
-        this.imageResourceId = imageResourceId;
-    }
-
-    public Chat(String message, String senderUid, String receiverUid, long timestamp) {
-        this.message = message;
-        this.senderUid = senderUid;
-        this.receiverUid = receiverUid;
-        this.timestamp = timestamp;
-    }
-
-    public int getImageResourceId() {
-        return imageResourceId;
-    }
-
-    public void setImageResourceId(int imageResourceId) {
-        this.imageResourceId = imageResourceId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getSenderUid() {
-        return senderUid;
-    }
-
-    public void setSenderUid(String senderUid) {
-        this.senderUid = senderUid;
-    }
-
-    public String getReceiverUid() {
-        return receiverUid;
-    }
-
-    public void setReceiverUid(String receiverUid) {
-        this.receiverUid = receiverUid;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    constructor(message: String?, senderUid: String?, receiverUid: String?, timestamp: Long) {
+        this.message = message
+        this.senderUid = senderUid
+        this.receiverUid = receiverUid
+        this.timestamp = timestamp
     }
 }

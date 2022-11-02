@@ -71,7 +71,7 @@ class InputPhoneNumberActivity : AppCompatActivity() {
                             val tes = countryDialCode?.replace("+", "")
                             mCountryCode?.setText(tes)
                         } else {
-                            val tes = countryCallingCode!!.dial_code.replace("+", "")
+                            val tes = countryCallingCode?.dial_code?.replace("+", "")
                             mCountryCode?.setText(tes)
                         }
                     }

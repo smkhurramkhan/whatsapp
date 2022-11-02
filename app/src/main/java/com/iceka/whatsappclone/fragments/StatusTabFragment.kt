@@ -69,7 +69,7 @@ class StatusTabFragment : Fragment() {
         val mFirebaseAuth = FirebaseAuth.getInstance()
         mFirebaseUser = mFirebaseAuth.currentUser
         mStatusReference = FirebaseDatabase.getInstance().reference.child("status")
-        myId = mFirebaseAuth.currentUser!!.uid
+        myId = mFirebaseAuth.currentUser?.uid
         myStatus
         otherStatus
         viewed
@@ -79,19 +79,19 @@ class StatusTabFragment : Fragment() {
         }
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                if (intent.action!!.compareTo(Intent.ACTION_TIME_TICK) == 0) {
+                if (intent.action?.compareTo(Intent.ACTION_TIME_TICK) == 0) {
                     checkStatusExpire()
                 }
             }
         }
-        activity!!.registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_TIME_TICK))
+        requireActivity().registerReceiver(broadcastReceiver, IntentFilter(Intent.ACTION_TIME_TICK))
         return rootView
     }
 
     private val viewed: Unit
         get() {
-            mStatusReference!!.child(myId!!).child("statusItem")
-                .addValueEventListener(object : ValueEventListener {
+            mStatusReference?.child(myId!!)?.child("statusItem")
+                ?.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (snapshot in dataSnapshot.children) {
                             val tesref = dataSnapshot.ref.child("viewed")
@@ -99,7 +99,7 @@ class StatusTabFragment : Fragment() {
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                     for (snapshot1 in dataSnapshot.children) {
                                         val viewed1 = snapshot1.getValue(Viewed::class.java)
-                                        viewedList.add(viewed1!!.uid)
+                                        viewedList.add(viewed1?.uid!!)
                                     }
                                 }
 
@@ -113,8 +113,8 @@ class StatusTabFragment : Fragment() {
         }
     private val myStatus: Unit
         get() {
-            mStatusReference!!.child(myId!!).child("statusItem")
-                .addValueEventListener(object : ValueEventListener {
+            mStatusReference?.child(myId!!)?.child("statusItem")
+                ?.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
                             val count = dataSnapshot.childrenCount.toInt()
@@ -129,19 +129,19 @@ class StatusTabFragment : Fragment() {
                                                 StatusItem::class.java
                                             )
                                             val byteArray = Base64.decode(
-                                                statusItem!!.thumbnail, Base64.DEFAULT
+                                                statusItem?.thumbnail, Base64.DEFAULT
                                             )
                                             val bitmap = BitmapFactory.decodeByteArray(
                                                 byteArray,
                                                 0,
                                                 byteArray.size
                                             )
-                                            Glide.with(context!!)
+                                            Glide.with(requireContext())
                                                 .load(bitmap)
                                                 .into(mAvatar!!)
                                         } else {
-                                            Glide.with(context!!)
-                                                .load(mFirebaseUser!!.photoUrl)
+                                            Glide.with(requireContext())
+                                                .load(mFirebaseUser?.photoUrl)
                                                 .into(mAvatar!!)
                                         }
                                     }
@@ -174,8 +174,8 @@ class StatusTabFragment : Fragment() {
                                     )
                                 )
                             }
-                            Glide.with(context!!)
-                                .load(mFirebaseUser!!.photoUrl)
+                            Glide.with(requireContext())
+                                .load(mFirebaseUser?.photoUrl)
                                 .into(mAvatar!!)
                             mCircularStatusCount?.visibility = View.GONE
                             mTimeStatus?.text = "Tap to add status"
@@ -188,7 +188,7 @@ class StatusTabFragment : Fragment() {
     private val otherStatus: Unit
         get() {
             val countList: MutableList<Int> = ArrayList()
-            mStatusReference!!.addValueEventListener(object : ValueEventListener {
+            mStatusReference?.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     statusList.clear()
                     countList.clear()
@@ -223,15 +223,15 @@ class StatusTabFragment : Fragment() {
         }
 
     private fun checkStatusExpire() {
-        mStatusReference!!.child(myId!!).child("statusItem")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+        mStatusReference?.child(myId!!)?.child("statusItem")
+            ?.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (snapshot in dataSnapshot.children) {
                         val statusItem = snapshot.getValue(StatusItem::class.java)
                         val timeList: MutableList<Long> = ArrayList()
                         timeList.add(statusItem!!.timestamp)
                         for (tesa in timeList) {
-                             tesa + TimeUnit.MILLISECONDS.convert(3, TimeUnit.HOURS)
+                            tesa + TimeUnit.MILLISECONDS.convert(3, TimeUnit.HOURS)
                             val timeNow = System.currentTimeMillis()
                             if (tesa <= timeNow) {
                                 snapshot.ref.removeValue()
@@ -242,8 +242,9 @@ class StatusTabFragment : Fragment() {
 
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
-        val query = mStatusReference!!.child(myId!!).child("statusItem").orderByKey().limitToLast(1)
-        query.addValueEventListener(object : ValueEventListener {
+        val query =
+            mStatusReference?.child(myId!!)?.child("statusItem")?.orderByKey()?.limitToLast(1)
+        query?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (snapshot in dataSnapshot.children) {
                     val statusItem1 = snapshot.getValue(StatusItem::class.java)
@@ -262,7 +263,7 @@ class StatusTabFragment : Fragment() {
 
     private fun checkStatusViewed() {
         statusListViewed.clear()
-        mStatusReference!!.addValueEventListener(object : ValueEventListener {
+        mStatusReference?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 statusListViewed.clear()
                 for (snapshot in dataSnapshot.children) {

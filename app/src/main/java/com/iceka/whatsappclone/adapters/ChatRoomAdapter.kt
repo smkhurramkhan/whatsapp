@@ -2,19 +2,17 @@ package com.iceka.whatsappclone.adapters
 
 import android.content.Context
 import android.util.Log
-import com.iceka.whatsappclone.models.Chat
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
-import com.iceka.whatsappclone.R
-import com.iceka.whatsappclone.adapters.ChatRoomAdapter.IncomingViewHolder
-import com.iceka.whatsappclone.adapters.ChatRoomAdapter.OutgoingViewHolder
-import androidx.constraintlayout.widget.ConstraintSet
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.iceka.whatsappclone.R
+import com.iceka.whatsappclone.models.Chat
 
 class ChatRoomAdapter(private val mContext: Context, var chatList: List<Chat>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -29,7 +27,7 @@ class ChatRoomAdapter(private val mContext: Context, var chatList: List<Chat>) :
 
     private fun tes(chat: Chat): Boolean {
         val mAuth = FirebaseAuth.getInstance()
-        return mAuth.currentUser!!.uid.equals(chat.senderUid, ignoreCase = true)
+        return mAuth.currentUser?.uid.equals(chat.senderUid, ignoreCase = true)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

@@ -1,27 +1,7 @@
-package com.iceka.whatsappclone.models;
+package com.iceka.whatsappclone.models
 
-import java.util.List;
-
-public class Status {
-
-    private String uid;
-    private StatusItem statusItem;
-    private int statuscount;
-
-    public Status() {
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public StatusItem getStatusItem() {
-        return statusItem;
-    }
-
-    public int getStatuscount() {
-        return statuscount;
-    }
-
-
+class Status {
+    val uid: String? = null
+    val statusItem: StatusItem? = null
+    val statuscount = 0
 }

@@ -45,6 +45,9 @@
         <activity
             android:name=".InputPhoneNumberActivity"
             android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".PhoneVerifyActivity"
+            android:windowSoftInputMode="adjustNothing" />
 
         <activity android:name=".ContactActivity" />
         <activity android:name=".MainActivity" />
