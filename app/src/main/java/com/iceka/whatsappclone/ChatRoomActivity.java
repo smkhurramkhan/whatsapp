@@ -1,29 +1,30 @@
 package com.iceka.whatsappclone;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,6 +56,7 @@ public class ChatRoomActivity extends AppCompatActivity {
     private FloatingActionButton mFab;
     private EditText mMessageText;
     private ImageView mAttachPict;
+    private Button sendMessage;
 
     public static final String EXTRAS_USER = "user";
     public static String idFromContact = null;
@@ -69,6 +71,8 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     private List<Chat> chatList = new ArrayList<>();
 
+    private String userNumber;
+    String chatId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +88,20 @@ public class ChatRoomActivity extends AppCompatActivity {
         mFab = findViewById(R.id.fab_chat);
         mMessageText = findViewById(R.id.et_message_chat);
         mAttachPict = findViewById(R.id.img_attach_picture);
+        sendMessage = findViewById(R.id.sendMessage);
+        sendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mMessageText.getText().toString().isEmpty())
+                {
+                    Toast.makeText(ChatRoomActivity.this, "Please type a Message", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    sendSMS(userNumber, mMessageText.getText().toString());
+                }
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -96,7 +114,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         idFromContact = getIntent().getStringExtra("userUid");
         String userUid = mFirebaseUser.getUid();
 
-        String chatId;
+
         if (userUid.compareTo(idFromContact) < idFromContact.compareTo(userUid)) {
             chatId = userUid + idFromContact;
         } else {
@@ -107,12 +125,17 @@ public class ChatRoomActivity extends AppCompatActivity {
         mConversationReference = mFirebaseDatabase.getReference().child("conversation");
         mUserReference = mFirebaseDatabase.getReference().child("users");
 
+
+
+
         backButton.setOnClickListener(view -> finish());
 
         getUserDetails();
         sendChatData();
         getChatData();
     }
+
+
 
     private void sendChatData() {
         mMessageText.addTextChangedListener(new TextWatcher() {
@@ -150,7 +173,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (editable.length() == 0) {
-                  //  showVoiceButton();
+                    //  showVoiceButton();
                     mAttachPict.setVisibility(View.VISIBLE);
                     mFab.setOnClickListener(view -> {
 
@@ -198,6 +221,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
+                userNumber = user.getPhone();
                 username.setText(user.getUsername());
                 Glide.with(getApplicationContext())
                         .load(user.getPhotoUrl())
@@ -208,7 +232,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                 long tes = calendar.getTimeInMillis();
                 DateFormat.format("M/dd/yyyy", calendar);
                 CharSequence now = DateUtils.getRelativeTimeSpanString(tes, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS);
-               if (user.isOnline()) {
+                if (user.isOnline()) {
                     status.setText("Online");
                 } else {
                     status.setText("Last seen " + now);
@@ -246,5 +270,24 @@ public class ChatRoomActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    private void sendSMS( String phoneNumber,  String message) {
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+            Toast.makeText(
+                    this, "SMS Sent!",
+                    Toast.LENGTH_LONG
+            ).show();
+        } catch (Exception e) {
+            Toast.makeText(
+                    this,
+                    "SMS faild, please try again later!",
+                    Toast.LENGTH_LONG
+            ).show();
+            e.printStackTrace();
+        }
+
     }
 }

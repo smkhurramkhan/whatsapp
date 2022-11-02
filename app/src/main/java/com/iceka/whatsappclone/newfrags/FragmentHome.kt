@@ -192,24 +192,7 @@ class FragmentHome : Fragment(), NetworkInterfaceCalls {
 
     }
 
-    private fun sendSMS(phoneNumber: String, message: String) {
-        try {
-            val smsManager = SmsManager.getDefault()
-            smsManager.sendTextMessage(phoneNumber, null, message, null, null)
-            Toast.makeText(
-                getApplicationContext(), "SMS Sent!",
-                Toast.LENGTH_LONG
-            ).show()
-        } catch (e: Exception) {
-            Toast.makeText(
-                getApplicationContext(),
-                "SMS faild, please try again later!",
-                Toast.LENGTH_LONG
-            ).show()
-            e.printStackTrace()
-        }
 
-    }
 
     private fun setAdapterForMenu() {
         menuAdapter = MenuAdapter(

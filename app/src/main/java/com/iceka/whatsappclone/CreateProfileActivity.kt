@@ -29,7 +29,9 @@ class CreateProfileActivity : AppCompatActivity() {
     private var mImgAvatar: CircleImageView? = null
     private var mProgressBar: ProgressBar? = null
     private var selectedImage: Uri? = null
-    private val defaultProfileAbout = "Hello there! I am using WhatsApp Clone."
+    private val defaultProfileAbout = "Hello there! I am using JAZZ T-VAS APP."
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_profile)
