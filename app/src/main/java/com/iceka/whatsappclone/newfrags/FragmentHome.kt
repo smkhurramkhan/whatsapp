@@ -219,23 +219,23 @@ class FragmentHome : Fragment(), NetworkInterfaceCalls {
                 when (it) {
                     1 -> {
                         Toast.makeText(requireContext(), "Coming Soon dfdsf", Toast.LENGTH_SHORT).show()
-                        val requestObject = JsonObject()
+                       /* val requestObject = JsonObject()
                         requestObject.addProperty("b_party", "3239978847")
                         requestObject.addProperty("channel", "USSD")
                         requestObject.addProperty("service_mode", "1")
-                        subNetworkCall?.subscribeUser(requestObject)
+                        subNetworkCall?.subscribeUser(requestObject)*/
 
                     }
                     2 -> {
                         Toast.makeText(requireContext(), "Coming Soon Unsub", Toast.LENGTH_SHORT).show()
 
 
-                        UnsubNetworkCall?.unSubscribeUser("3239978847")
+                      //  UnsubNetworkCall?.unSubscribeUser("3239978847")
 
                     }
                     3 -> {
                         Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
-                        sendSMS("923211609211","hello")
+                        //   sendSMS("923211609211","hello")
 
                     }
                     4 -> {

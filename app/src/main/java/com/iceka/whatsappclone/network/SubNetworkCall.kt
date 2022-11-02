@@ -1,6 +1,5 @@
 package com.iceka.whatsappclone.network
 
-import android.util.Log
 import com.google.gson.JsonObject
 import com.iceka.whatsappclone.api.ApiClient.getClient
 import com.iceka.whatsappclone.api.IEndPoints

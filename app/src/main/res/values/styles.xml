@@ -19,6 +19,10 @@
         <item name="textAllCaps">true</item>
     </style>
 
+    <style name="progress_color" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">#FFFF5858</item>
+    </style>
+
 
     <style name="CustomAlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="android:windowBackground">@drawable/ic_dialog_bg</item>
