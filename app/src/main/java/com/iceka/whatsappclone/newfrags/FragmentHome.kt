@@ -145,7 +145,8 @@ class FragmentHome : Fragment(), NetworkInterfaceCalls
     }
 
 
-    private fun setAdapterForSlider() {
+    private fun setAdapterForSlider()
+    {
         sliderAdapter = HomeSliderAdapter(
             requireContext(),
             sliderList,
@@ -192,8 +193,6 @@ class FragmentHome : Fragment(), NetworkInterfaceCalls
         binding.sliderRecycler.adapter = sliderAdapter
 
     }
-
-
 
     private fun setAdapterForMenu() {
         menuAdapter = MenuAdapter(
@@ -253,7 +252,6 @@ class FragmentHome : Fragment(), NetworkInterfaceCalls
         binding.menuRecycler.itemAnimator = DefaultItemAnimator()
         binding.menuRecycler.adapter = menuAdapter
     }
-
     private fun setSliderList()
     {
         sliderList.add(
