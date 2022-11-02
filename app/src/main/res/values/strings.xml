@@ -238,4 +238,6 @@
     <string name="approx">Approx</string>
     <string name="low">Low</string>
     <string name="monday">Monday</string>
+    <string name="daily_subscription_ncharges_rs_1_64_day_inc_tax"><b><font color='#000'>Daily Subscription</font></b>\nCharges: Rs. 1.64/day (Inc.tax)</string>
+    <string name="monthly_subscription_ncharges_rs_1_64_day_inc_tax"><b><font color='#000'>Monthly Subscription</font></b>\nCharges: Rs. 15+tax/Month</string>
 </resources>

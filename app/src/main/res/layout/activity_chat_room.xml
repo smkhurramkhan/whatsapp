@@ -29,8 +29,9 @@
 
                 <ImageView
                     android:id="@+id/toolbar_back_button"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="8dp"
                     android:foreground="?attr/selectableItemBackground"
                     android:src="@drawable/ic_arrow_back_black_24dp" />
 
@@ -38,6 +39,7 @@
                     android:id="@+id/avatar_chat_room"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:layout_marginStart="12dp"
                     android:src="@mipmap/ic_launcher" />
 
                 <LinearLayout

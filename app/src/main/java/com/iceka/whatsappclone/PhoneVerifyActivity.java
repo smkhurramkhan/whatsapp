@@ -15,6 +15,7 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.iceka.whatsappclone.utils.SharedPrefs;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,8 +28,10 @@ public class PhoneVerifyActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
 
     private EditText mEtCode;
+    String phoneNumber;
 
     private ProgressDialog mProgressDialog;
+    SharedPrefs sharedPrefs;
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
@@ -58,7 +61,9 @@ public class PhoneVerifyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_verify);
 
-        String phoneNumber = getIntent().getStringExtra("phonenumber");
+        sharedPrefs = new SharedPrefs(this);
+
+        phoneNumber = getIntent().getStringExtra("phonenumber");
 
         mEtCode = findViewById(R.id.et_verification_code);
         TextView mBtNext = findViewById(R.id.bt_next_main);
@@ -98,6 +103,7 @@ public class PhoneVerifyActivity extends AppCompatActivity {
         mFirebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        sharedPrefs.setUserNumber(phoneNumber);
                         Intent intent = new Intent(PhoneVerifyActivity.this, CreateProfileActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

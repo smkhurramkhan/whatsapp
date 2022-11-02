@@ -80,4 +80,8 @@ dependencies {
     def okHttpInterceptorVersion = "5.0.0-alpha.2"
     implementation("com.squareup.okhttp3:logging-interceptor:$okHttpInterceptorVersion")
 
+    implementation 'com.google.android.exoplayer:exoplayer:2.16.1'
+    implementation 'com.github.HaarigerHarald:android-youtubeExtractor:v2.1.0'
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.4'
 }

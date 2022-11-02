@@ -1,5 +1,6 @@
 package com.iceka.whatsappclone.newfrags
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.iceka.whatsappclone.adapters.MenuAdapter
 import com.iceka.whatsappclone.databinding.HomeFragmentBinding
 import com.iceka.whatsappclone.models.MenuModel
 import com.iceka.whatsappclone.models.ModelSlider
+import com.iceka.whatsappclone.status.MyStatusActivity
 
 class FragmentHome : Fragment() {
 
@@ -58,28 +60,28 @@ class FragmentHome : Fragment() {
             MenuModel(8, "Jazz Tunes", R.drawable.jazz_tunes, false)
         )
         dataList.add(
-            MenuModel(8, "Youth Central", R.drawable.youth_central, false)
+            MenuModel(9, "Youth Central", R.drawable.youth_central, false)
         )
         dataList.add(
-            MenuModel(8, "Bima Insurance", R.drawable.bima_insurance, false)
+            MenuModel(10, "Bima Insurance", R.drawable.bima_insurance, false)
         )
         dataList.add(
-            MenuModel(8, "Mobile Magazine", R.drawable.mobile_magazine, false)
+            MenuModel(11, "Mobile Magazine", R.drawable.mobile_magazine, false)
         )
         dataList.add(
-            MenuModel(8, "Jazz Drive", R.drawable.jazz_drive, false)
+            MenuModel(12, "Jazz Drive", R.drawable.jazz_drive, false)
         )
         dataList.add(
-            MenuModel(8, "Self Service Dial", R.drawable.self_service_dial_codes, false)
+            MenuModel(13, "Self Service Dial", R.drawable.self_service_dial_codes, false)
         )
         dataList.add(
-            MenuModel(8, "Job Alerts", R.drawable.job_alerts, false)
+            MenuModel(14, "Job Alerts", R.drawable.job_alerts, false)
         )
         dataList.add(
-            MenuModel(8, "Zero Balance Call", R.drawable.zero_balance_call, false)
+            MenuModel(15, "Zero Balance Call", R.drawable.zero_balance_call, false)
         )
         dataList.add(
-            MenuModel(8, "Jazz Parhu", R.drawable.jazz_parho, false)
+            MenuModel(16, "Jazz Parhu", R.drawable.jazz_parho, false)
         )
     }
 
@@ -139,7 +141,9 @@ class FragmentHome : Fragment() {
                         Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
                     }
                     6 -> {
-                        Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(requireContext(), MyStatusActivity::class.java)
+                        startActivity(intent)
+
                     }
                     7 -> {
                         Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
@@ -153,7 +157,7 @@ class FragmentHome : Fragment() {
 
         val horizontalManager = GridLayoutManager(
             requireContext(),
-            4
+            3
         )
         binding.menuRecycler.setHasFixedSize(true)
         binding.menuRecycler.isNestedScrollingEnabled = false

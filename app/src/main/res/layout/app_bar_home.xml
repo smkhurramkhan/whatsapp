@@ -40,7 +40,7 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/white"
         android:elevation="8dp"
         android:foreground="?attr/selectableItemBackground"
         app:itemIconTint="@drawable/nav_bar_bottom"
