@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,17 +9,19 @@
 
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_chat_room"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
             android:background="@color/colorPrimary"
-            android:theme="@style/MyToolbarTheme">
+            android:theme="@style/MyToolbarTheme"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,11 +75,43 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <LinearLayout
+        android:id="@+id/btn_layout"
+        android:layout_width="match_parent"
+        android:layout_marginTop="4dp"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/appbar">
+
+        <Button
+            android:id="@+id/sendMessage"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:text="Message">
+
+        </Button>
+
+        <Button
+            android:id="@+id/sendByTVAS"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="#A70000"
+            android:text="TVAS"
+            android:textColor="@color/white"></Button>
+
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/frame_layout_chat"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:layout_height="0dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_layout">
 
         <LinearLayout
             android:id="@+id/layout_bottom_chat"
@@ -95,8 +129,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingLeft="4dp"
-                android:visibility="gone"
-                android:src="@drawable/ic_insert_emoticon_black_24dp" />
+                android:src="@drawable/ic_insert_emoticon_black_24dp"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/et_message_chat"
@@ -104,16 +138,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:paddingStart="8dp"
                 android:backgroundTint="@color/fui_transparent"
-                android:hint="Type a Message" />
+                android:hint="Type a Message"
+                android:paddingStart="8dp" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="gone"
-                android:src="@drawable/ic_attach_file_black_24dp" />
+                android:src="@drawable/ic_attach_file_black_24dp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/img_attach_picture"
@@ -122,8 +156,8 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="6dp"
                 android:paddingRight="4dp"
-                android:visibility="gone"
-                android:src="@drawable/ic_insert_photo_black_24dp" />
+                android:src="@drawable/ic_insert_photo_black_24dp"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -133,6 +167,7 @@
             android:layout_height="match_parent"
             android:layout_above="@id/layout_bottom_chat"
             android:clipToPadding="false"
+            android:layout_marginTop="8dp"
             android:paddingTop="5dp"
             tools:listitem="@layout/item_chat_outgoing" />
 
@@ -149,5 +184,4 @@
             android:backgroundTint="#00897b"
             android:src="@drawable/ic_send_black_24dp" />
     </RelativeLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
