@@ -32,6 +32,7 @@ import com.iceka.whatsappclone.fragments.ChatTabFragment
 import com.iceka.whatsappclone.models.User
 import com.iceka.whatsappclone.models.WeatherModel
 import com.iceka.whatsappclone.newfrags.FragmentHome
+import com.iceka.whatsappclone.newfrags.FragmentUser
 import com.iceka.whatsappclone.weather.WeatherWebview
 
 
@@ -184,8 +185,8 @@ class HomeActivity : AppCompatActivity() {
                 R.id.home -> {
                     loadFragment(FragmentHome())
                 }
-                R.id.bag -> {
-                    Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show()
+                R.id.profile -> {
+                    loadFragment(FragmentUser())
                 }
                 R.id.history -> {
                     Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show()
