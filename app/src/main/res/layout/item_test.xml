@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/layout_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/item_sender"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_chat_outgoing"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="30dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:text="hello"
+        android:gravity="center_vertical"
+        android:textColor="#000"
+        android:textSize="16sp"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintBottom_toTopOf="@id/tv_time_chat_outgoing"
+        app:layout_constraintEnd_toEndOf="@id/layout_chat"
+        app:layout_constraintStart_toStartOf="@id/layout_chat"
+        app:layout_constraintTop_toTopOf="@id/layout_chat" />
+
+    <TextView
+        android:id="@+id/tv_time_chat_outgoing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11:38 AM"
+        android:textColor="#000"
+        android:textSize="10sp"
+        android:layout_marginEnd="24dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/layout_chat"
+        app:layout_constraintEnd_toEndOf="@id/tv_chat_outgoing"
+        app:layout_constraintTop_toBottomOf="@id/tv_chat_outgoing" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

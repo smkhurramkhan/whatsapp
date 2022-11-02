@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.google.firebase.database.FirebaseDatabase
 import com.iceka.whatsappclone.R
 import com.iceka.whatsappclone.models.StatusItem
 import com.iceka.whatsappclone.models.Viewed
@@ -55,7 +54,7 @@ class StatusFlipperAdapter(
             text.text = statusItem.text
             val vieweds: MutableList<Viewed> = ArrayList()
             if (statusItem.viewed != null) {
-                vieweds.add(statusItem.viewed)
+                vieweds.add(statusItem.viewed!!)
             }
             viewCount.text = vieweds.size.toString()
         }

@@ -40,28 +40,30 @@ class ChatListAdapter(
         val mUserReference = FirebaseDatabase.getInstance().reference.child("users")
         val conversation = conversationList[position]
         val id = conversation.chatWithId
-        mUserReference.child(id).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val user = dataSnapshot.getValue(
-                    User::class.java
-                )
-                holder.username.text = user!!.username
-                Glide.with(mContext)
-                    .load(user.photoUrl)
-                    .into(holder.avatar)
-                holder.layout.setOnClickListener {
-                    val conversation1 = conversationList[position]
-                    clearUnreadChat(conversation1.chatWithId)
-                    val intent = Intent(mContext, ChatRoomActivity::class.java)
-                    intent.putExtra(ChatRoomActivity.EXTRAS_USER, user)
-                    intent.putExtra("userUid", conversation1.chatWithId)
-                    intent.putExtra("otherUid", user.uid)
-                    mContext.startActivity(intent)
+        id?.let {
+            mUserReference.child(it).addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val user = dataSnapshot.getValue(
+                        User::class.java
+                    )
+                    holder.username.text = user!!.username
+                    Glide.with(mContext)
+                        .load(user.photoUrl)
+                        .into(holder.avatar)
+                    holder.layout.setOnClickListener {
+                        val conversation1 = conversationList[position]
+                        clearUnreadChat(conversation1.chatWithId!!)
+                        val intent = Intent(mContext, ChatRoomActivity::class.java)
+                        intent.putExtra(ChatRoomActivity.EXTRAS_USER, user)
+                        intent.putExtra("userUid", conversation1.chatWithId)
+                        intent.putExtra("otherUid", user.uid)
+                        mContext.startActivity(intent)
+                    }
                 }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+        }
         holder.message.text = conversation.lastMessage
         if (conversation.unreadChatCount == 0) {
             holder.unreadCount.visibility = View.GONE

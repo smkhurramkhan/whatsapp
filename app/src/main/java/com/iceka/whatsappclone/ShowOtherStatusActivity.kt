@@ -125,14 +125,14 @@ class ShowOtherStatusActivity : AppCompatActivity() {
                                 TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
                             val viewed = Viewed(myId, timestamp)
                             mStatusReference?.child(id!!)?.child("statusItem")
-                                ?.child(statusItem.id)
+                                ?.child(statusItem.id!!)
                                 ?.child("viewed")?.orderByKey()?.startAt(myId)?.endAt(myId)
                                 ?.addListenerForSingleValueEvent(object : ValueEventListener {
                                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                                         if (!dataSnapshot.exists()) {
                                             mStatusReference?.child(id!!)?.child("statusItem")!!
                                                 .child(
-                                                    statusItem.id
+                                                    statusItem.id!!
                                                 ).child("viewed").child(myId!!).setValue(viewed)
                                         }
                                     }

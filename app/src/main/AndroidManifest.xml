@@ -29,7 +29,6 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,6 +52,10 @@
         <activity
             android:name=".InputPhoneNumberActivity"
             android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".PhoneVerifyActivity"
+            android:windowSoftInputMode="adjustNothing" />
+
         <activity android:name=".ContactActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".CameraActivity" />

@@ -1,22 +1,21 @@
 package com.iceka.whatsappclone.adapters
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
-import android.view.ViewGroup
+import android.content.Intent
 import android.view.LayoutInflater
-import com.iceka.whatsappclone.R
-import com.google.firebase.database.DatabaseReference
+import android.view.View
+import android.view.ViewGroup
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.devlomi.circularstatusview.CircularStatusView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.DataSnapshot
-import com.bumptech.glide.Glide
-import com.google.firebase.database.DatabaseError
-import android.content.Intent
-import android.view.View
+import com.iceka.whatsappclone.R
 import com.iceka.whatsappclone.ShowOtherStatusActivity
-import com.devlomi.circularstatusview.CircularStatusView
-import android.widget.TextView
-import android.widget.RelativeLayout
 import com.iceka.whatsappclone.models.Status
 import com.iceka.whatsappclone.models.User
 import de.hdodenhof.circleimageview.CircleImageView
@@ -32,7 +31,7 @@ class StatusAdapter(private val mContext: Context, private val statusList: List<
         val mUserReference = FirebaseDatabase.getInstance().reference.child("users")
         val currentStatus = statusList[position]
         val userUid = currentStatus.uid
-        mUserReference.child(userUid).addValueEventListener(object : ValueEventListener {
+        mUserReference.child(userUid!!).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 //                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                 val user = dataSnapshot.getValue(

@@ -2,19 +2,19 @@ package com.iceka.whatsappclone.adapters
 
 import android.content.Context
 import android.util.Log
-import com.iceka.whatsappclone.models.Chat
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
-import com.iceka.whatsappclone.R
-import com.iceka.whatsappclone.adapters.ChatRoomAdapter.IncomingViewHolder
-import com.iceka.whatsappclone.adapters.ChatRoomAdapter.OutgoingViewHolder
-import androidx.constraintlayout.widget.ConstraintSet
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.iceka.whatsappclone.R
+import com.iceka.whatsappclone.models.Chat
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ChatRoomAdapter(private val mContext: Context, var chatList: List<Chat>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -64,6 +64,7 @@ class ChatRoomAdapter(private val mContext: Context, var chatList: List<Chat>) :
     private fun configureViewHolderIncoming(holder: IncomingViewHolder, position: Int) {
         val chat = chatList[position]
         holder.message.text = chat.message
+        holder.time.text = getDateCurrentTimeZone(chat.timestamp)
         holder.message.post {
             val linecount = holder.message.lineCount
             val constraintSet = ConstraintSet()
@@ -85,6 +86,7 @@ class ChatRoomAdapter(private val mContext: Context, var chatList: List<Chat>) :
     private fun configureViewholderOutgoing(holder: OutgoingViewHolder, position: Int) {
         val chat = chatList[position]
         holder.message.text = chat.message
+        holder.time.text = getDateCurrentTimeZone(chat.timestamp)
         holder.message.post {
             val linecount = holder.message.lineCount
             val constraintSet = ConstraintSet()
@@ -121,7 +123,7 @@ class ChatRoomAdapter(private val mContext: Context, var chatList: List<Chat>) :
         val message: TextView
         val constraintLayout: ConstraintLayout
         private val layout: LinearLayout
-        private val time: TextView
+        val time: TextView
 
         init {
             message = itemView.findViewById(R.id.tv_chat_outgoing)
@@ -129,5 +131,20 @@ class ChatRoomAdapter(private val mContext: Context, var chatList: List<Chat>) :
             layout = itemView.findViewById(R.id.layout_chat)
             time = itemView.findViewById(R.id.tv_time_chat_outgoing)
         }
+    }
+
+    private fun getDateCurrentTimeZone(timestamp: Long): String? {
+        try {
+            val calendar: Calendar = Calendar.getInstance()
+            val tz: TimeZone = TimeZone.getDefault()
+            calendar.timeInMillis = timestamp * 1000
+            calendar.add(Calendar.MILLISECOND, tz.getOffset(calendar.timeInMillis))
+            val sdf = SimpleDateFormat("h:mm a")
+            val currenTimeZone: Date = calendar.time as Date
+            return sdf.format(currenTimeZone)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ""
     }
 }
