@@ -101,7 +101,7 @@
             android:layout_weight="1"
             android:background="#A70000"
             android:text="TVAS"
-            android:textColor="@color/white"></Button>
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 

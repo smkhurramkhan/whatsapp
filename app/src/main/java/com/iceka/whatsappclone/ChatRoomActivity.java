@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,6 +56,7 @@ public class ChatRoomActivity extends AppCompatActivity {
     private EditText mMessageText;
     private ImageView mAttachPict;
     private Button sendMessage;
+    private Button sendMessageTas;
 
     public static final String EXTRAS_USER = "user";
     public static String idFromContact = null;
@@ -73,6 +73,9 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     private String userNumber;
     String chatId;
+
+    private boolean isSMS = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,18 +92,27 @@ public class ChatRoomActivity extends AppCompatActivity {
         mMessageText = findViewById(R.id.et_message_chat);
         mAttachPict = findViewById(R.id.img_attach_picture);
         sendMessage = findViewById(R.id.sendMessage);
-        sendMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mMessageText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(ChatRoomActivity.this, "Please type a Message", Toast.LENGTH_SHORT).show();
+        sendMessageTas = findViewById(R.id.sendByTVAS);
 
-                }
-                else {
-                    sendSMS(userNumber, mMessageText.getText().toString());
-                }
+
+        sendMessage.setOnClickListener(view -> {
+           /* if(mMessageText.getText().toString().isEmpty())
+            {
+                Toast.makeText(ChatRoomActivity.this, "Please type a Message", Toast.LENGTH_SHORT).show();
+
             }
+            else {
+                sendSMS(userNumber, mMessageText.getText().toString());
+            }*/
+
+            isSMS = true;
+            smsSelected();
+
+        });
+
+        sendMessageTas.setOnClickListener(view -> {
+            isSMS = false;
+            tasSelected();
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -126,8 +138,6 @@ public class ChatRoomActivity extends AppCompatActivity {
         mUserReference = mFirebaseDatabase.getReference().child("users");
 
 
-
-
         backButton.setOnClickListener(view -> finish());
 
         getUserDetails();
@@ -135,6 +145,26 @@ public class ChatRoomActivity extends AppCompatActivity {
         getChatData();
     }
 
+
+    private void smsSelected() {
+        if (isSMS) {
+            sendMessage.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            sendMessageTas.setBackgroundColor(getResources().getColor(R.color.white));
+
+            sendMessageTas.setTextColor(getResources().getColor(R.color.black));
+            sendMessage.setTextColor(getResources().getColor(R.color.white));
+        }
+    }
+
+    private void tasSelected() {
+        if (!isSMS) {
+            sendMessage.setBackgroundColor(getResources().getColor(R.color.white));
+            sendMessageTas.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+
+            sendMessage.setTextColor(getResources().getColor(R.color.black));
+            sendMessageTas.setTextColor(getResources().getColor(R.color.white));
+        }
+    }
 
 
     private void sendChatData() {
@@ -145,21 +175,25 @@ public class ChatRoomActivity extends AppCompatActivity {
                     showSendButton();
                     mAttachPict.setVisibility(View.GONE);
                     mFab.setOnClickListener(view -> {
-                        String contoh = mMessageText.getText().toString();
-                        long timestamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-                        Chat chat = new Chat(contoh, mFirebaseUser.getUid(), idFromContact, timestamp);
-                        mChatReference.push().setValue(chat);
-                        mMessageText.setText("");
 
-                        unreadCount = unreadCount + 1;
-                        Conversation conversationSender = new Conversation(mFirebaseUser.getUid(), idFromContact, contoh, timestamp);
-                        Conversation conversationReceiver = new Conversation(idFromContact, mFirebaseUser.getUid(), contoh, timestamp, unreadCount);
+                        if (isSMS) {
+                            sendSMS(userNumber, mMessageText.getText().toString());
+                        } else {
+                            String contoh = mMessageText.getText().toString();
+                            long timestamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+                            Chat chat = new Chat(contoh, mFirebaseUser.getUid(), idFromContact, timestamp);
+                            mChatReference.push().setValue(chat);
+                            mMessageText.setText("");
 
-                        DatabaseReference senderReference = mConversationReference.child(mFirebaseUser.getUid()).child(idFromContact);
-                        senderReference.setValue(conversationSender);
-                        DatabaseReference receiverReference = mConversationReference.child(idFromContact).child(mFirebaseUser.getUid());
-                        receiverReference.setValue(conversationReceiver);
+                            unreadCount = unreadCount + 1;
+                            Conversation conversationSender = new Conversation(mFirebaseUser.getUid(), idFromContact, contoh, timestamp);
+                            Conversation conversationReceiver = new Conversation(idFromContact, mFirebaseUser.getUid(), contoh, timestamp, unreadCount);
 
+                            DatabaseReference senderReference = mConversationReference.child(mFirebaseUser.getUid()).child(idFromContact);
+                            senderReference.setValue(conversationSender);
+                            DatabaseReference receiverReference = mConversationReference.child(idFromContact).child(mFirebaseUser.getUid());
+                            receiverReference.setValue(conversationReceiver);
+                        }
                     });
 
                 }
@@ -175,9 +209,6 @@ public class ChatRoomActivity extends AppCompatActivity {
                 if (editable.length() == 0) {
                     //  showVoiceButton();
                     mAttachPict.setVisibility(View.VISIBLE);
-                    mFab.setOnClickListener(view -> {
-
-                    });
                 }
             }
         });

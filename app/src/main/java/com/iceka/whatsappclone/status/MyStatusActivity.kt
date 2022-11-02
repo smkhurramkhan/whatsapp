@@ -60,8 +60,8 @@ class MyStatusActivity : AppCompatActivity(), NetworkInterfaceCalls {
             requestObject.addProperty("b_party", sharedPref?.getUserNumber())
             requestObject.addProperty("channel", "USSD")
             requestObject.addProperty("service_mode", "1")
-           // subNetworkCall?.subscribeUser(requestObject)
-            UnsubNetworkCall?.unSubscribeUser(sharedPref?.getUserNumber()!!)
+            subNetworkCall?.subscribeUser(requestObject)
+            //UnsubNetworkCall?.unSubscribeUser(sharedPref?.getUserNumber()!!)
 
         }
 
