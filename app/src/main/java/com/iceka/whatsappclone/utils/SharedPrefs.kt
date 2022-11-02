@@ -37,4 +37,14 @@ class SharedPrefs(context: Context?) {
     }
 
 
+
+    fun isSubscribed(isSub: Boolean) {
+        editor.putBoolean("isSub", isSub)
+        editor.commit()
+    }
+
+    fun getIsSub(): Boolean {
+        return prefs.getBoolean("isSub", false)
+    }
+
 }
