@@ -95,7 +95,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/ic_unsub"
+        android:background="@drawable/ic_subscribe"
         android:gravity="center"
         android:text="@string/subscribe"
         android:textColor="@color/white"

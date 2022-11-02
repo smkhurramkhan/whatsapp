@@ -118,7 +118,8 @@ class MyStatusActivity : AppCompatActivity(), NetworkInterfaceCalls {
             }
             "UnSubscibeCall" -> {
                 alertDialog?.dismiss()
-                Toast.makeText(this, "Unsubscribed Successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Unsubscribed Successfully",
+                    Toast.LENGTH_SHORT).show()
                 if (subModel?.status == 200) {
                     binding.subscribe.visibility = View.VISIBLE
                 } else {
