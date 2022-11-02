@@ -46,8 +46,17 @@ class MyStatusActivity : AppCompatActivity(), NetworkInterfaceCalls {
         setupToolbar()
         lifecycle.addObserver(binding.youtubePlayerView);
 
-        Glide.with(this)
-            .load("https://img.youtube.com/vi/$videoId/mqdefault.jpg")
+
+        if (sharedPref?.getIsSub() == true) {
+            binding.unsubscribe.visibility = View.VISIBLE
+            binding.subscribe.visibility = View.GONE
+        } else {
+            binding.subscribe.visibility = View.VISIBLE
+            binding.unsubscribe.visibility = View.GONE
+        }
+
+
+        Glide.with(this).load("https://img.youtube.com/vi/$videoId/mqdefault.jpg")
             .into(binding.youtubeThumbnail);
 
 
@@ -133,14 +142,51 @@ class MyStatusActivity : AppCompatActivity(), NetworkInterfaceCalls {
 
     override fun onFailure(errorMessage: String, className: String) {
         alertDialog?.dismiss()
-        Timber.d("Failure is $errorMessage")
-        Toast.makeText(this, "Already Subscribed", Toast.LENGTH_SHORT).show()
+        when (className) {
+            "SubscibeCall" -> {
+                sharedPref?.isSubscribed(true)
+                Timber.d("Failure is $errorMessage $className")
+            }
+            "UnSubscibeCall" -> {
+                sharedPref?.isSubscribed(false)
+                Timber.d("Failure is $errorMessage $className")
+            }
+        }
+
+
+        if (sharedPref?.getIsSub() == true) {
+            binding.unsubscribe.visibility = View.VISIBLE
+            binding.subscribe.visibility = View.GONE
+        } else {
+            binding.subscribe.visibility = View.VISIBLE
+            binding.unsubscribe.visibility = View.GONE
+        }
 
     }
 
     override fun onException(exception: String, className: String) {
         alertDialog?.dismiss()
-        Timber.d("Exception is $exception")
+
+        when (className) {
+            "SubscibeCall" -> {
+                Timber.d("Exception is $exception $className")
+            }
+            "UnSubscibeCall" -> {
+                Timber.d("Exception is $exception $className")
+            }
+        }
+
+
+        sharedPref?.isSubscribed(true)
+
+
+        if (sharedPref?.getIsSub() == true) {
+            binding.unsubscribe.visibility = View.VISIBLE
+            binding.subscribe.visibility = View.GONE
+        } else {
+            binding.subscribe.visibility = View.VISIBLE
+            binding.unsubscribe.visibility = View.GONE
+        }
 
     }
 

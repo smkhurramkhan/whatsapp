@@ -10,7 +10,7 @@ class SharedPrefs(context: Context?) {
 
     init {
         if (context != null) {
-            prefs = context.getSharedPreferences("FitFlexPrefs", Context.MODE_PRIVATE)
+            prefs = context.getSharedPreferences("tasVas", Context.MODE_PRIVATE)
             editor = prefs.edit()
             editor.apply()
         }
@@ -36,5 +36,15 @@ class SharedPrefs(context: Context?) {
         return prefs.getString("UserNumber", null)
     }
 
+
+
+    fun isSubscribed(isSub: Boolean) {
+        editor.putBoolean("isSub", isSub)
+        editor.commit()
+    }
+
+    fun getIsSub(): Boolean {
+        return prefs.getBoolean("isSub", false)
+    }
 
 }

@@ -43,8 +43,10 @@ class CreateProfileActivity : AppCompatActivity() {
         val mFirebaseStorage = FirebaseStorage.getInstance()
         val mFirebaseAuth = FirebaseAuth.getInstance()
         mFirebaseUser = mFirebaseAuth.currentUser
+
         mUserReference = mFirebaseDatabase.reference.child("users").child(mFirebaseUser!!.uid)
         mStorageReference = mFirebaseStorage.reference.child("avatar").child(mFirebaseUser!!.uid)
+
         mImgAvatar?.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/jpeg"
@@ -78,43 +80,51 @@ class CreateProfileActivity : AppCompatActivity() {
     }
 
     private fun createUserData() {
-        mUserReference!!.addListenerForSingleValueEvent(object : ValueEventListener {
+        mUserReference?.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    val photoRef = mStorageReference!!.child(selectedImage!!.lastPathSegment!!)
-                    photoRef.putFile(selectedImage!!)
-                        .addOnSuccessListener { taskSnapshot: UploadTask.TaskSnapshot? ->
-                            photoRef.downloadUrl.addOnSuccessListener { uri ->
-                                val username = mEtUsername!!.text.toString()
-                                val profileUpdates = UserProfileChangeRequest.Builder()
-                                    .setDisplayName(username)
-                                    .setPhotoUri(uri)
-                                    .build()
-                                mFirebaseUser!!.updateProfile(profileUpdates)
-                                    .addOnCompleteListener { task: Task<Void?> ->
-                                        if (task.isSuccessful) {
-                                            val intent = Intent(
-                                                this@CreateProfileActivity,
-                                                HomeActivity::class.java
-                                            )
-                                            intent.flags =
-                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                            startActivity(intent)
+
+                    if (selectedImage != null) {
+                        val photoRef = mStorageReference?.child(selectedImage?.lastPathSegment!!)
+                        photoRef?.putFile(selectedImage!!)
+                            ?.addOnSuccessListener { taskSnapshot: UploadTask.TaskSnapshot? ->
+                                photoRef.downloadUrl.addOnSuccessListener { uri ->
+                                    val username = mEtUsername!!.text.toString()
+                                    val profileUpdates = UserProfileChangeRequest.Builder()
+                                        .setDisplayName(username)
+                                        .setPhotoUri(uri)
+                                        .build()
+                                    mFirebaseUser?.updateProfile(profileUpdates)
+                                        ?.addOnCompleteListener { task: Task<Void?> ->
+                                            if (task.isSuccessful) {
+                                                val intent = Intent(
+                                                    this@CreateProfileActivity,
+                                                    HomeActivity::class.java
+                                                )
+                                                intent.flags =
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                startActivity(intent)
+                                            }
                                         }
-                                    }
-                                val user = User(
-                                    mFirebaseUser!!.uid,
-                                    username,
-                                    mFirebaseUser!!.phoneNumber,
-                                    uri.toString(),
-                                    defaultProfileAbout,
-                                    true,
-                                    0
-                                )
-                                mUserReference!!.setValue(user)
-                                mProgressBar!!.visibility = View.GONE
+                                    val user = User(
+                                        mFirebaseUser?.uid,
+                                        username,
+                                        mFirebaseUser?.phoneNumber,
+                                        uri.toString(),
+                                        defaultProfileAbout,
+                                        true,
+                                        0
+                                    )
+                                    mUserReference?.setValue(user)
+                                    mProgressBar?.visibility = View.GONE
+                                }
                             }
-                        }
+                    } else {
+                        Toast.makeText(
+                            this@CreateProfileActivity, "Please choose image to continue",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 } else {
                     val intent = Intent(this@CreateProfileActivity, HomeActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
