@@ -244,7 +244,9 @@ class FragmentHome : Fragment(), NetworkInterfaceCalls {
                         Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
                     }
                     6 -> {
-                        Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(requireContext(), MyStatusActivity::class.java)
+                        startActivity(intent)
+
                     }
                     7 -> {
                         Toast.makeText(requireContext(), "Coming Soon", Toast.LENGTH_SHORT).show()
@@ -275,9 +277,11 @@ class FragmentHome : Fragment(), NetworkInterfaceCalls {
         sliderList.add(
             ModelSlider(2, "slider 2", R.drawable.slider2)
         )
+
         sliderList.add(
             ModelSlider(4, "slider 4", R.drawable.slider4)
         )
+
         sliderList.add(
             ModelSlider(3, "slider 3", R.drawable.slider3)
         )

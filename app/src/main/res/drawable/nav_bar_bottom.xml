@@ -5,7 +5,7 @@
         android:color="#ACACAC"
         android:state_checked="false"/>
 
-    <item android:color="#fff"
+    <item android:color="#474747"
         android:state_checked="true"/>
 
 </selector>

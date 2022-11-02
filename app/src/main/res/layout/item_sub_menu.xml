@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/parent"
-    android:layout_margin="8dp"
+    android:layout_margin="4dp"
     app:cardCornerRadius="8dp">
 
 
@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:background="@drawable/filled_rounded_rect"
-        android:layout_marginTop="15dp"
         android:layout_gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
