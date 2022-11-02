@@ -29,7 +29,8 @@ import com.iceka.whatsappclone.status.MyStatusActivity
 import timber.log.Timber
 
 
-class FragmentHome : Fragment(), NetworkInterfaceCalls {
+class FragmentHome : Fragment(), NetworkInterfaceCalls
+{
 
     private lateinit var binding: HomeFragmentBinding
     private var sliderList = mutableListOf<ModelSlider>()
