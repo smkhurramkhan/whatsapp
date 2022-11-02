@@ -11,9 +11,11 @@ import com.iceka.whatsappclone.models.ModelSlider
 
 class HomeSliderAdapter(
     var context: Context,
-    var dataList: List<ModelSlider>
-) : RecyclerView.Adapter<SliderVH>() {
+    var dataList: List<ModelSlider>,
+    val onClick: (position: Int) -> Unit
+) : RecyclerView.Adapter<SliderVH>()
 
+{
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SliderVH {
         return SliderVH(
             ItemSlidersBinding.inflate(
@@ -30,6 +32,10 @@ class HomeSliderAdapter(
             Glide.with(context)
                 .load(model.icon)
                 .into(imageView)
+        }
+
+        holder.binding.imageView.setOnClickListener {
+            onClick(position)
         }
     }
 
