@@ -47,7 +47,8 @@ import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChatRoomActivity extends AppCompatActivity {
+public class ChatRoomActivity extends AppCompatActivity
+{
 
     private TextView username;
     private CircleImageView avatar;
@@ -57,22 +58,20 @@ public class ChatRoomActivity extends AppCompatActivity {
     private EditText mMessageText;
     private ImageView mAttachPict;
     private Button sendMessage;
-
+    private Button sendTVAS;
     public static final String EXTRAS_USER = "user";
     public static String idFromContact = null;
     private int unreadCount = 0;
-
     private FirebaseUser mFirebaseUser;
     private DatabaseReference mChatReference;
     private DatabaseReference mConversationReference;
     private DatabaseReference mUserReference;
-
     private ChatRoomAdapter adapters;
-
     private List<Chat> chatList = new ArrayList<>();
-
     private String userNumber;
     String chatId;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,17 +88,36 @@ public class ChatRoomActivity extends AppCompatActivity {
         mMessageText = findViewById(R.id.et_message_chat);
         mAttachPict = findViewById(R.id.img_attach_picture);
         sendMessage = findViewById(R.id.sendMessage);
-        sendMessage.setOnClickListener(new View.OnClickListener() {
+        sendTVAS = findViewById(R.id.sendByTVAS);
+
+        sendMessage.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view) {
                 if(mMessageText.getText().toString().isEmpty())
+                {
+                    Toast.makeText(ChatRoomActivity.this, "Please type a Message", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    sendSMS(userNumber, mMessageText.getText().toString());
+                }
+            }
+        });
+
+        sendTVAS.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+
+
+              /*  if(mMessageText.getText().toString().isEmpty())
                 {
                     Toast.makeText(ChatRoomActivity.this, "Please type a Message", Toast.LENGTH_SHORT).show();
 
                 }
                 else {
                     sendSMS(userNumber, mMessageText.getText().toString());
-                }
+                }*/
             }
         });
 
