@@ -60,8 +60,8 @@ class MyStatusActivity : AppCompatActivity(), NetworkInterfaceCalls {
             requestObject.addProperty("b_party", sharedPref?.getUserNumber())
             requestObject.addProperty("channel", "USSD")
             requestObject.addProperty("service_mode", "1")
-           // subNetworkCall?.subscribeUser(requestObject)
-            UnsubNetworkCall?.unSubscribeUser(sharedPref?.getUserNumber()!!)
+            subNetworkCall?.subscribeUser(requestObject)
+            //UnsubNetworkCall?.unSubscribeUser(sharedPref?.getUserNumber()!!)
 
         }
 
@@ -118,7 +118,8 @@ class MyStatusActivity : AppCompatActivity(), NetworkInterfaceCalls {
             }
             "UnSubscibeCall" -> {
                 alertDialog?.dismiss()
-                Toast.makeText(this, "Unsubscribed Successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Unsubscribed Successfully",
+                    Toast.LENGTH_SHORT).show()
                 if (subModel?.status == 200) {
                     binding.subscribe.visibility = View.VISIBLE
                 } else {
