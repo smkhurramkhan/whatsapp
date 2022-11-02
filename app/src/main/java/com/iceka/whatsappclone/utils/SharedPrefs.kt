@@ -10,7 +10,7 @@ class SharedPrefs(context: Context?) {
 
     init {
         if (context != null) {
-            prefs = context.getSharedPreferences("FitFlexPrefs", Context.MODE_PRIVATE)
+            prefs = context.getSharedPreferences("tasVas", Context.MODE_PRIVATE)
             editor = prefs.edit()
             editor.apply()
         }

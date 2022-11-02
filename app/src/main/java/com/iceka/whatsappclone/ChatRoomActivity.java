@@ -178,6 +178,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
                         if (isSMS) {
                             sendSMS(userNumber, mMessageText.getText().toString());
+                            mMessageText.setText("");
                         } else {
                             String contoh = mMessageText.getText().toString();
                             long timestamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
