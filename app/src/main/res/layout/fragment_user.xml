@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Profile info"
+            android:text="@string/profile_info"
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:textColor="@color/colorPrimary" />
 
@@ -57,48 +57,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:hint="@string/personal_information"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:hint="Personal Information"
-            android:inputType="text" />
+            android:textSize="20sp" />
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/info"
-        android:background="@drawable/filled_rounded_rect"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical"
-        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/filled_rounded_rect"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20dp"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:text="Name:"
-                android:textStyle="bold"
-                android:inputType="text" />
+                android:layout_marginTop="26dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:text="@string/name"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
 
-            <TextView
-                android:id="@+id/et_create_profile_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="20dp"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:hint="Khurria Zafar"
-                android:inputType="text" />
+                <TextView
+                    android:id="@+id/et_create_profile_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:hint="@string/app_name"
+                    android:textSize="20sp" />
 
         </LinearLayout>
         <LinearLayout
@@ -113,21 +111,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20dp"
+                android:text="@string/phone_number"
                 android:backgroundTint="@color/colorPrimaryDark"
-                android:text="Phone Number:"
-                android:textStyle="bold"
-                android:inputType="text" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/et_create_profile_phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20dp"
+                android:hint="@string/app_name"
                 android:backgroundTint="@color/colorPrimaryDark"
-                android:hint="03239978847"
-                android:inputType="text" />
+                android:textSize="20sp" />
 
         </LinearLayout>
 
